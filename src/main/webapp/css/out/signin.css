@@ -1,0 +1,65 @@
+
+body.gray-bg{
+    background-color: #f3f3f4;
+}
+
+.blurCC{
+    position: absolute; 
+    top: 0px; 
+    left: 0px; 
+    width: 100%; 
+    height: 100%;
+
+	background: url(../../images/out/bg.svg) no-repeat;
+	background-size: cover;
+	background-position: 50% 35%;
+}
+
+.container-fluid{
+    height: 100%;
+}
+
+.header{
+    height: 4.643rem;
+    line-height: 4.643rem;
+    padding-left: 1.154rem;
+	color: #393e65;
+}
+
+.header>div{
+    text-align: left;
+    padding-left: 5.2rem;
+    font-size: 1.563rem;
+    font-weight: bold;
+    background: url(../../images/out/logo.png) no-repeat;
+    background-size: contain;
+    height: 100%;
+    width: 100%;
+}
+
+.top{
+	height: 80px;
+	background: url(../../images/out/logo.png) no-repeat;
+	background-position: 30px 50%;
+}
+
+.content{
+    position: absolute;
+    left: 0rem;
+    right: 0rem;
+    top: 80px;
+    bottom: 0rem;
+}
+
+.content form{
+    position: absolute;
+    left: 50%;
+    top: 43%;
+    width: 340px;
+	transform: translate(-50%, -50%);
+}
+
+.content form h3{
+    margin-bottom: 3.077rem;
+	color: #393e65;
+}

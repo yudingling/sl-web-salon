@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:p="http://www.springframework.org/schema/p"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:aop="http://www.springframework.org/schema/aop" xmlns:tx="http://www.springframework.org/schema/tx"
+	xmlns:mvc="http://www.springframework.org/schema/mvc"
+	xsi:schemaLocation="
+		http://www.springframework.org/schema/beans 
+		http://www.springframework.org/schema/beans/spring-beans.xsd
+		http://www.springframework.org/schema/context 
+		http://www.springframework.org/schema/context/spring-context.xsd
+		http://www.springframework.org/schema/aop 
+        http://www.springframework.org/schema/aop/spring-aop.xsd
+		http://www.springframework.org/schema/tx
+        http://www.springframework.org/schema/tx/spring-tx.xsd
+		http://www.springframework.org/schema/mvc
+		http://www.springframework.org/schema/mvc/spring-mvc-4.2.xsd">
+
+	<context:property-placeholder location="classpath:/config.properties" ignore-unresolvable="true" />
+	
+	<mvc:cors>
+		<mvc:mapping path="/**" allowed-origins="*" allow-credentials="true" max-age="1800" allowed-methods="GET,POST,PUT,DELETE,OPTIONS" />
+	</mvc:cors>
+
+	<!-- spring mvc 基于注解开发 -->
+	<context:annotation-config />
+	<context:component-scan base-package="com.sl" />
+	
+	<bean id="fastJsonConfig" class="com.alibaba.fastjson.support.config.FastJsonConfig">
+		<property name="charset" value="UTF-8" />
+		<property name="serializerFeatures">
+			<list>
+				<value>WriteNonStringValueAsString</value>
+				<value>WriteNonStringKeyAsString</value>
+				<value>WriteMapNullValue</value>
+				<value>WriteBigDecimalAsPlain</value>
+			</list>
+		</property>
+	</bean>
+	
+	<mvc:annotation-driven enable-matrix-variables="true">
+		<!-- 解决spring mvc 返回中文出现乱码问题 -->
+		<mvc:message-converters>
+			<bean class="com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter">
+	            <property name="fastJsonConfig" ref="fastJsonConfig"/>
+	            <property name="supportedMediaTypes">
+					<list>
+						<value>text/html; charset=UTF-8</value>
+						<value>text/plain; charset=UTF-8</value>
+						<value>application/json; charset=UTF-8</value>
+					</list>
+				</property>
+	        </bean>
+		</mvc:message-converters>
+	</mvc:annotation-driven>
+
+	<!-- 修改视图解析器 -->
+	<bean id="jspViewResolver"
+		class="org.springframework.web.servlet.view.InternalResourceViewResolver">
+		<property name="viewClass" value="org.springframework.web.servlet.view.JstlView" />
+		<property name="prefix" value="/" />
+		<property name="suffix" value=".html" />
+	</bean>
+	
+	<bean id="cookieSerializer" class="org.springframework.session.web.http.DefaultCookieSerializer">
+		<property name="cookiePath" value="/"></property>
+		<!-- <property name="domainNamePattern" value="^.+?\\.(\\w+\\.[a-z]+)$"></property> -->
+		<property name="domainName" value="${sessionDomain}"></property> 
+	</bean>
+	 
+	<!-- RedisHttpSessionConfiguration 将会导出 springSessionRepositoryFilter， 该 filter 用在 web.xml 中. 
+		具体可见  RedisHttpSessionConfiguration 的父类，采用了 @Bean 将 SessionRepositoryFilter 导出-->
+	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
+		<!-- session 超时时间，单位 s，默认值30分钟 -->
+		<property name="maxInactiveIntervalInSeconds" value="1800" />
+	</bean>
+	
+	<!-- 使用默认的servlet 处理静态文件。 注意，这个要放到最后面，因为匹配的是 /** -->
+	<mvc:default-servlet-handler />
+
+</beans>
