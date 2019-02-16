@@ -28,7 +28,7 @@ public class TestController {
 	public void gsxxxx(@RequestParam Boolean keep, HttpServletRequest request, HttpServletResponse response){
 		request.getSession().setAttribute("id", System.currentTimeMillis());
 		
-		request.getSession().setMaxInactiveInterval(1209600);
+		request.getSession().setMaxInactiveInterval(86400);
 		
 		if(keep){
 			Cookie cookie = new Cookie("SESSION", request.getSession().getId());

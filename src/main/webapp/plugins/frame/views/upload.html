@@ -44,6 +44,11 @@
 </body>
 <script>
 layui.use(['upload','layer','fsConfig','fsCommon'], function(){
+  let getCookie = function getCookie(name) {
+      var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      return v ? v[2] : null;
+  };
+    
   var upload = layui.upload,
   fsConfig = layui.fsConfig,
   layer = layui.layer,
@@ -52,7 +57,7 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
   statusName = $.result(fsConfig,"global.result.statusName","errorNo"),
   msgName = $.result(fsConfig,"global.result.msgName","errorInfo"),
 	successNo = $.result(fsConfig,"global.result.successNo","0"),
-  uploadUrl = $.result(fsConfig,"global.uploadUrl",""),
+  uploadUrl = $.result(fsConfig,"global.uploadUrl","") + '?token=' + getCookie('k'),
   dataName = $.result(fsConfig,"global.result.dataName","results.data");
   
   var uploadFilePath = top.$('meta[name="uploadFilePath"]');
@@ -127,7 +132,7 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
 		//上传成功后，返回文件路径
 		var data = $.result(result,dataName);
 		
-		top.$('meta[name="uploadFilePath"]').attr("content",data["filePath"]);
+		top.$('meta[name="uploadFilePath"]').attr("content",data["fileId"]);
 		
 		//关闭
 		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引

@@ -6,16 +6,27 @@ layui.use([],function(){
 	        return value;
 	};
     
+    let setCookie = function(name,value){ 
+        var Days = 30;
+        var exp = new Date();
+        exp.setTime(exp.getTime() + Days*24*60*60*1000);
+        document.cookie = name + "="+ escape (value) + ";expires=" + exp.toGMTString(); 
+    };
+    
 	$('.content button').click(function(){
 		$.ajax({
-            type: 'POST',
-            data: {'uid': $('.uid').val(), 'pwd': $('.pwd').val()},
-            url: '/signin'
+            data: {
+                phoneNumber: $('.uid').val(), 
+                password: $('.pwd').val(), 
+                keep: true
+            },
+            url: './auth/signin'
         }).done(function(ret){
 			ret = evalJson(ret);
 			
 			if(ret.errorCode == 0){
-				location.href = "./index";
+                setCookie('k', ret.data.token);
+				location.href = "./main/index";
 				
 			}else{
 				Notice.error("请求错误", ret.errorMsg);

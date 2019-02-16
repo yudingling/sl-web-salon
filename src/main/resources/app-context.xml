@@ -72,7 +72,7 @@
 		具体可见  RedisHttpSessionConfiguration 的父类，采用了 @Bean 将 SessionRepositoryFilter 导出-->
 	<bean id="redisHttpSessionConfiguration" class="org.springframework.session.data.redis.config.annotation.web.http.RedisHttpSessionConfiguration">
 		<!-- session 超时时间，单位 s，默认值30分钟 -->
-		<property name="maxInactiveIntervalInSeconds" value="1800" />
+		<property name="maxInactiveIntervalInSeconds" value="86400" />
 	</bean>
 	
 	<!-- 使用默认的servlet 处理静态文件。 注意，这个要放到最后面，因为匹配的是 /** -->
