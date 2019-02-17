@@ -49,7 +49,7 @@ public class TokenService {
 		if(Common.md5(password).equals(user.getuPwd())){
 			String token = this.getToken(phoneNumber, password);
 			
-			SigninResult reuslt = new SigninResult(token, user.getRoleId());
+			SigninResult reuslt = new SigninResult(user, token);
 			
 			request.getSession().setAttribute(sessionIdAttr, reuslt);
 			request.getSession().setMaxInactiveInterval(86400);
