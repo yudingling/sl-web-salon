@@ -239,6 +239,21 @@ public class Common {
     }
 	
 	/**
+	 * get an nonEmpty string
+	 * @param value
+	 * @return return null if the string is empty
+	 */
+	public static String valString(String value){
+		if(value != null){
+			value = value.trim();
+			return value.length() > 0 ? value : null;
+			
+		}else{
+			return value;
+		}
+	}
+	
+	/**
 	 * get string value from map
 	 * @param map
 	 * @param key

@@ -66,7 +66,7 @@ public class AuthFilter extends BaseFilter {
 			Set<String> apis = this.roleApis.get(UserType.valueOf(result.getRoleId()));
 			
 			if(!CollectionUtils.isEmpty(apis) && (this.matchApiPath(apis, path))){
-				chain.doFilter(request, response);
+				chain.doFilter(new FilterHttpServletRequest(req, result), response);
 				
 			}else{
 				this.error(ApiResult.error(ApiError.UNAUTHORIZED), req, resp);

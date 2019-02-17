@@ -22,8 +22,11 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 			data : [
 				{"menuId":"1","menuName":"控制台","menuIcon":"fa-cog","menuHref":"","parentMenuId":0},
 				{"menuId":"2","menuName":"测试","menuIcon":"","menuHref":"","parentMenuId":0},
+                {"menuId":"3","menuName":"我的控制台","menuIcon":"","menuHref":"","parentMenuId":0},
 				{"menuId":"11","menuName":"案例","menuIcon":"fa-table","menuHref":"","parentMenuId":1},
 				{"menuId":"12","menuName":"其他页面","menuIcon":"","menuHref":"","parentMenuId":"1"},
+                {"menuId":"31","menuName":"品牌管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+                {"menuId":"311","menuName":"品牌列表","menuIcon":"&#xe68e;","menuHref":"../views/brandMgr/index.html","parentMenuId":"31"},
 				{"menuId":"111","menuName":"首页","menuIcon":"&#xe68e;","menuHref":"../views/home/index.html","parentMenuId":"11"},
 				{"menuId":"datagrid","menuName":"数据表格","menuIcon":"fa-list","menuHref":"../views/datagrid/index.html","parentMenuId":"11"},
 				{"menuId":"datagrid2","menuName":"数据表格2","menuIcon":"fa-list","menuHref":"../views/datagrid2/index.html","parentMenuId":"11"},
