@@ -65,7 +65,8 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
   {
 	top.$('head').append("<meta name=\"uploadFilePath\" content=\"\"/>");
   }else{
- 	uploadFilePath.attr("content","");
+ 	  uploadFilePath.attr("content","");
+      uploadFilePath.attr("src","");
   }
   
   
@@ -86,7 +87,8 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
   //绑定默认按钮
   fsCommon.buttonEvent();
   
-  var loadIndex;
+  var loadIndex; 
+  let resource;
   
   //选完文件后不自动上传
   upload.render({
@@ -97,7 +99,7 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
     ,exts :fileExts
     ,size :fileSize
     ,auto: false
-    ,before: function(){
+    ,before: function(obj){
     	if(!isSelectFile){
     		fsCommon.warnMsg("请选择文件！");
     		return;
@@ -111,6 +113,7 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
     	isSelectFile = true;
     	obj.preview(function(index, file, result){
     		$("#fileName").html(file.name);
+            resource = result;
     	})
     }
     ,done: function(result){
@@ -132,7 +135,7 @@ layui.use(['upload','layer','fsConfig','fsCommon'], function(){
 		//上传成功后，返回文件路径
 		var data = $.result(result,dataName);
 		
-		top.$('meta[name="uploadFilePath"]').attr("content",data["fileId"]);
+		top.$('meta[name="uploadFilePath"]').attr("content", data["fileId"]).attr('src', resource);
 		
 		//关闭
 		var index = parent.layer.getFrameIndex(window.name); //获取窗口索引

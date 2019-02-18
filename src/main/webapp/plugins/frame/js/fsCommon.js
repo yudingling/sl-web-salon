@@ -445,11 +445,17 @@ layui.define(['layer','form','fsConfig','fsButtonCommon'], function (exports) {
 	    		}
 
 	    		fsCommon.open(_title,_width,_height,_url,function(){
-	    			var uploadFilePath = top.$('meta[name="uploadFilePath"]').attr("content");
+                    let meta = top.$('meta[name="uploadFilePath"]');
+	    			var uploadFilePath = meta.attr("content");
+                    var uploadFileResource = meta.attr("src");
 
 				  	if(!$.isEmpty(uploadFilePath)){
 				  		if(!$.isEmpty(_this.attr("fileElem"))){
 				  			$(_this.attr("fileElem")).val(uploadFilePath);
+				  		}
+                        
+                        if(!$.isEmpty(_this.attr("fileResource"))){
+				  			$(_this.attr("fileResource")).attr('src', uploadFileResource);
 				  		}
 				  	}
     			});

@@ -58,6 +58,9 @@ public class BrandService {
 	
 	public BrandInfo get(String bdId){
 		List<BrandInfo> brands = this.slBrandMapper.getBrand(bdId);
+		if(CollectionUtils.isNotEmpty(brands)){
+			this.commonService.setIconUrl(brands);
+		}
 		
 		return CollectionUtils.isNotEmpty(brands) ? brands.get(0) : null;
 	}

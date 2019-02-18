@@ -49,6 +49,8 @@ layui.define(['layer',"fsCommon","form",'laydate',"fsConfig",'layedit'], functio
     thisForm.renderLayedit();
 
     thisForm.bindButtonSubmit();
+        
+    thisForm.renderImage();
 
     return thisForm;
 	};
@@ -153,6 +155,15 @@ layui.define(['layer',"fsCommon","form",'laydate',"fsConfig",'layedit'], functio
 			});
 
 	};
+    
+    FsForm.prototype.renderImage = function(){
+        $(this.config.elem).find("img").each(function(){
+            var _this = $(this);
+            
+            let value = _this.val();
+            _this.attr('src', value);
+        });
+    };
 
 	//渲染日期控件绑定
 	FsForm.prototype.renderDate = function(){

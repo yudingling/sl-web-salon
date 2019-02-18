@@ -20,6 +20,20 @@
 	<script type="text/javascript" src="../../plugins/frame/js/fsDict.js?v=1.7.0"></script>
 	<script type="text/javascript" src="../../plugins/frame/js/fs.js?v=1.7.0"></script>
 	<script type="text/javascript" src="../../plugins/frame/js/frame.js?v=1.7.0"></script>
+    
+    <style>
+        td>div.laytable-cell-1-bdLogoUrl{
+            height: 60px;
+        }
+        
+        div.imgTd{
+            height: 100%; 
+            width: 100%; 
+            background-position: center; 
+            background-repeat: no-repeat; 
+            background-size: contain;
+        }
+    </style>
 </head>
 <body>
   <div >
@@ -47,7 +61,7 @@
   	 <div class="layui-col-md12">
   	 	<div class="layui-row grid-demo">
 	      <div class="layui-col-md12">
-        	<button class="layui-btn" function="top" topUrl="views/brandMgr/add.html" topWidth="800px" topHeight="600px" topTitle="新增品牌">
+        	<button class="layui-btn" function="top" topUrl="../views/brandMgr/add.html" topWidth="800px" topHeight="600px" topTitle="新增品牌">
 			  <i class="layui-icon">&#xe654;</i>新增
 			</button>
 			<button class="layui-btn" function="refresh">
@@ -59,17 +73,17 @@
               
 	         <div class="fsDatagridCols">
 						<p type="numbers" title="#"/>
-						<p field="bdId" title="品牌ID" width="100" sort="true"/>
-						<p field="bdNm" title="名称" width="30%" sort="true" />
+						<p field="bdId" title="品牌ID" width="200" sort="true"/>
+						<p field="bdNm" title="名称" width="200" sort="true" />
 						<p field="bdLogoUrl" title="图标" width="150" templet='#logoTpl'/>
-                        <p field="bdUrl" title="描述" width="150" templet='#urlTpl'/>
-						<p field="bdwAppid" title="appId" width="100" />
-                        <p field="bdwWechatpayId" title="mchId" width="100" />
-						<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="220"/>
+                        <p field="bdUrl" title="描述URL" width="150" templet='#urlTpl'/>
+						<p field="bdwAppid" title="appId" width="200" />
+                        <p field="bdwWechatpayId" title="mchId" width="200" />
+						<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="150"/>
 					</div>
             
             <script type="text/html" id="logoTpl">
-                <img src="{{ d.bdLogoUrl }}" style="width: 60px; height: 60px">
+                <div style="background-image:url({{ d.bdLogoUrl }});" class="imgTd"></div>
             </script>
 
             <script type="text/html" id="urlTpl">
@@ -79,8 +93,8 @@
             </script>
             
 			<script type="text/html" id="barDemo">
-				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="views/brandMgr/edit.html" topMode="readonly" topWidth="800px" topHeight="600px" topTitle="详情" inputs="id:">查看</a>
- 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="views/datagrid/edit.html" topWidth="800px" topHeight="600px" topTitle="编辑" inputs="bdId:">编辑</a>
+				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="../views/brandMgr/edit.html" topMode="readonly" topWidth="800px" topHeight="500px" topTitle="详情" inputs="bdId:">查看</a>
+ 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="../views/brandMgr/edit.html" topWidth="800px" topHeight="500px" topTitle="编辑" inputs="bdId:">编辑</a>
 			</script>
 	      </div>
 	    </div>

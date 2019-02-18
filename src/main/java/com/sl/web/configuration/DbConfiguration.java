@@ -67,6 +67,7 @@ public class DbConfiguration {
         
         tk.mybatis.mapper.session.Configuration configuration = new tk.mybatis.mapper.session.Configuration();
         configuration.setMapperHelper(new MapperHelper());
+        configuration.setMapUnderscoreToCamelCase(true);
         
         sessionFactory.setConfiguration(configuration);
         

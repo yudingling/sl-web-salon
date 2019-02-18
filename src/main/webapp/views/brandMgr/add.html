@@ -41,35 +41,38 @@
         </div>
       </div>
 	  <div class="layui-form-item">
-	    <label class="layui-form-label">品牌简介URL</label>
+	    <label class="layui-form-label">简介URL</label>
 	    <div class="layui-input-block">
 	      <input type="text" name="bdUrl" lay-verify="url" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
       <div class="layui-form-item layui-form-text">
-	    <label class="layui-form-label">品牌logo</label>
+	    <label class="layui-form-label">logo</label>
 	    <div class="layui-input-inline">
 	      <input type="text" id="bdLogo" name="bdLogo" autocomplete="off" disabled="disabled" class="layui-input"/>
 	    </div>
+        <div class="layui-input-inline">
+          <img class="layui-upload-img" id="bdLogoResource" name="bdLogoUrl">
+	    </div>
 	    <div class="layui-input-inline">
-			 <button type="button"  class="layui-btn" function="upload" fileElem="#bdLogo" fileAccept="file" fileExts="png" fileSize="10">上传图片</button>
+			 <button type="button"  class="layui-btn" function="upload" fileElem="#bdLogo" fileResource="#bdLogoResource" fileAccept="file" fileExts="png" fileSize="10">上传图片</button>
 	    </div>
 	  </div>
         
       <div class="layui-form-item">
-	    <label class="layui-form-label">小程序对应的AppId</label>
+	    <label class="layui-form-label">AppId</label>
 	    <div class="layui-input-block">
 	      <input type="text" name="bdwAppid" lay-verify="required" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
       <div class="layui-form-item">
-	    <label class="layui-form-label">小程序对应的AppSecret</label>
+	    <label class="layui-form-label">AppSecret</label>
 	    <div class="layui-input-block">
 	      <input type="text" name="bdwSecret" lay-verify="required" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
       <div class="layui-form-item">
-	    <label class="layui-form-label">特约商户的mchId</label>
+	    <label class="layui-form-label">sub mchId</label>
 	    <div class="layui-input-block">
 	      <input type="text" name="bdwWechatpayId" lay-verify="required" autocomplete="off" class="layui-input"/>
 	    </div>
