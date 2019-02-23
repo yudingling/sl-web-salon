@@ -10,9 +10,17 @@ public enum UserType {
 	 */
 	BRAND,
 	/**
+	 * brand worker
+	 */
+	BRAND_WORKER,
+	/**
 	 * shop admin
 	 */
 	SHOP,
+	/**
+	 * shop worker
+	 */
+	SHOP_WORKER,
 	/**
 	 * barber
 	 */

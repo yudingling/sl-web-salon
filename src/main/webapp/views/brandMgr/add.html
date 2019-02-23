@@ -45,7 +45,7 @@
 	  <div class="layui-form-item">
 	    <label class="layui-form-label">简介URL</label>
 	    <div class="layui-input-block">
-	      <input type="text" name="bdUrl" lay-verify="url" autocomplete="off" class="layui-input"/>
+	      <input type="text" name="bdUrl" lay-verify="bdUrl" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
       <div class="layui-form-item layui-form-text">
@@ -79,6 +79,20 @@
 	      <input type="text" name="bdwWechatpayId" lay-verify="required" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">管理员</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="brandUserPhone" lay-verify="required|phone" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-inline">
+                <label class="layui-form-label">初始密码</label>
+                <div class="layui-input-inline">
+                    <input type="password" name="brandUserPwd" lay-verify="required" autocomplete="off" class="layui-input">
+                </div>
+            </div>
+        </div>
 	  <hr/>
 	  <div class="layui-form-item" style="text-align: center;">
 	      <button class="layui-btn" lay-submit="" lay-filter="save" url="../../api/authed/brand/add">新增</button>
@@ -86,5 +100,14 @@
 	  </div>
 	</form>
 	</div>
+    <script>
+        layui.use(['upload','layer','fsConfig','fsCommon'], function(){
+           let form = layui.form;
+            
+           form.verify({
+            bdUrl:  [/(^$)|(^#)|(^http(s*):\/\/[^\s]+\.[^\s]+)/, '链接格式不正确']
+          }); 
+        });
+    </script>
 </body>
 </html>

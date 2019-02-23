@@ -1,8 +1,6 @@
 package com.sl.web.model;
 
 import java.io.Serializable;
-
-import com.sl.web.model.db.SlShop;
 import com.sl.web.util.Common;
 import com.sl.web.util.DateUtil;
 
@@ -12,6 +10,7 @@ public class ShopInfo implements Serializable {
 	private Long shopId;
 	private String shopNm;
 	private String bdId;
+	private Integer shopEnable;
 	private Double shopLgtd;
 	private Double shopLttd;
 	private String shopLocation;
@@ -19,9 +18,14 @@ public class ShopInfo implements Serializable {
 	private String shopWechatpayId;
 	private String shopStm;
 	private String shopEtm;
+	private Long crtTs;
+	private Long uptTs;
 	
 	private String spsStm;
 	private String spsEtm;
+	
+	private String shopUserPhone;
+	private String shopUserPwd;
 	
 	public Long getShopId() {
 		return shopId;
@@ -95,24 +99,39 @@ public class ShopInfo implements Serializable {
 	public void setSpsEtm(String spsEtm) {
 		this.spsEtm = Common.valString(spsEtm);
 	}
+	public String getShopUserPhone() {
+		return shopUserPhone;
+	}
+	public void setShopUserPhone(String shopUserPhone) {
+		this.shopUserPhone = shopUserPhone;
+	}
+	public String getShopUserPwd() {
+		return shopUserPwd;
+	}
+	public void setShopUserPwd(String shopUserPwd) {
+		this.shopUserPwd = shopUserPwd;
+	}
+	public Integer getShopEnable() {
+		return shopEnable;
+	}
+	public void setShopEnable(Integer shopEnable) {
+		this.shopEnable = shopEnable;
+	}
+	public Long getCrtTs() {
+		return crtTs;
+	}
+	public void setCrtTs(Long crtTs) {
+		this.crtTs = crtTs;
+	}
+	public Long getUptTs() {
+		return uptTs;
+	}
+	public void setUptTs(Long uptTs) {
+		this.uptTs = uptTs;
+	}
 	
 	public ShopInfo(){
 		super();
-	}
-	
-	public ShopInfo(SlShop shop){
-		super();
-		
-		this.shopId = shop.getShopId();
-		this.shopNm = shop.getShopNm();
-		this.bdId = shop.getBdId();
-		this.shopLgtd = shop.getShopLgtd();
-		this.shopLttd = shop.getShopLttd();
-		this.shopLocation = shop.getShopLocation();
-		this.shopPhone = shop.getShopPhone();
-		this.shopWechatpayId = shop.getShopWechatpayId();
-		this.shopStm = shop.getShopStm();
-		this.shopEtm = shop.getShopEtm();
 	}
 	
 	public void setServiceTime(Long spsStm, Long spsEtm){

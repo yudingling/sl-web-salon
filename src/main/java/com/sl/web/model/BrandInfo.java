@@ -21,6 +21,9 @@ public class BrandInfo implements Serializable {
 	
 	private String bdLogoUrl;
 	
+	private String brandUserPhone;
+	private String brandUserPwd;
+	
 	public String getBdId() {
 		return bdId;
 	}
@@ -81,4 +84,17 @@ public class BrandInfo implements Serializable {
 	public void setBdwWechatpayId(String bdwWechatpayId) {
 		this.bdwWechatpayId = Common.valString(bdwWechatpayId);
 	}
+	public String getBrandUserPhone() {
+		return brandUserPhone;
+	}
+	public void setBrandUserPhone(String brandUserPhone) {
+		this.brandUserPhone = Common.valString(brandUserPhone);
+	}
+	public String getBrandUserPwd() {
+		return brandUserPwd;
+	}
+	public void setBrandUserPwd(String brandUserPwd) {
+		this.brandUserPwd = Common.valString(brandUserPwd);
+	}
+	
 }

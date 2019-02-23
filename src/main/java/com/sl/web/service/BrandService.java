@@ -10,10 +10,15 @@ import org.springframework.transaction.annotation.Transactional;
 import com.alibaba.druid.util.StringUtils;
 import com.sl.web.mapper.SlBrandMapper;
 import com.sl.web.mapper.SlBrandWechatMapper;
+import com.sl.web.mapper.SlUserBrandMapper;
+import com.sl.web.mapper.SlUserMapper;
 import com.sl.web.model.BrandInfo;
 import com.sl.web.model.SigninResult;
+import com.sl.web.model.UserType;
 import com.sl.web.model.db.SlBrand;
 import com.sl.web.model.db.SlBrandWechat;
+import com.sl.web.model.db.SlUser;
+import com.sl.web.model.db.SlUserBrand;
 import com.sl.web.model.result.ApiPageResult;
 import com.sl.web.util.Common;
 
@@ -23,6 +28,10 @@ public class BrandService {
 	private SlBrandMapper slBrandMapper;
 	@Autowired
 	private SlBrandWechatMapper brandWechatMapper;
+	@Autowired
+	private SlUserBrandMapper userBrandMapper;
+	@Autowired
+	private SlUserMapper userMapper;
 	@Autowired
 	private CommonService commonService;
 	
@@ -84,7 +93,45 @@ public class BrandService {
 					ts, 
 					ts);
 			
-			return this.brandWechatMapper.insert(bdWechat) == 1;
+			if(this.brandWechatMapper.insert(bdWechat) == 1){
+				return this.createBrandUser(bd, brand.getBrandUserPhone(), brand.getBrandUserPwd());
+			}
+		}
+		
+		return false;
+	}
+	 
+	private boolean createBrandUser(SlBrand bd, String phone, String pwd){
+		Long ts = System.currentTimeMillis();
+		
+		List<Long> ids = this.commonService.nextId(2);
+		
+		SlUser user = new SlUser(
+				ids.get(0), 
+				bd.getBdId(), 
+				bd.getBdNm(), 
+				phone, 
+				phone, 
+				null, 
+				Common.md5(pwd), 
+				UserType.BRAND.toString(), 
+				1, 
+				0, 
+				null, 
+				null, 
+				ts, 
+				ts);
+		
+		if(this.userMapper.insert(user) == 1){
+			SlUserBrand sb = new SlUserBrand(
+					ids.get(1), 
+					bd.getBdId(), 
+					user.getuId(), 
+					user.getRoleId(), 
+					ts, 
+					ts);
+			
+			return this.userBrandMapper.insert(sb) == 1;
 			
 		}else{
 			return false;

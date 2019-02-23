@@ -12,13 +12,20 @@ import org.springframework.transaction.annotation.Transactional;
 import org.springframework.util.StringUtils;
 
 import tk.mybatis.mapper.entity.Example;
+
 import com.sl.web.mapper.SlShopMapper;
 import com.sl.web.mapper.SlShopServiceMapper;
+import com.sl.web.mapper.SlUserMapper;
+import com.sl.web.mapper.SlUserShopMapper;
 import com.sl.web.model.ShopInfo;
 import com.sl.web.model.SigninResult;
+import com.sl.web.model.UserType;
 import com.sl.web.model.db.SlShop;
 import com.sl.web.model.db.SlShopService;
+import com.sl.web.model.db.SlUser;
+import com.sl.web.model.db.SlUserShop;
 import com.sl.web.model.result.ApiPageResult;
+import com.sl.web.util.Common;
 import com.sl.web.util.DateUtil;
 
 @Service
@@ -27,6 +34,10 @@ public class ShopService {
 	private SlShopMapper shopMapper;
 	@Autowired
 	private SlShopServiceMapper shopServiceMapper;
+	@Autowired
+	private SlUserShopMapper userShopMapper;
+	@Autowired
+	private SlUserMapper userMapper;
 	@Autowired
 	private CommonService commonService;
 	
@@ -56,24 +67,20 @@ public class ShopService {
 			name = "%" + name + "%";
 		}
 		
-		List<SlShop> shops = this.shopMapper.getShops(startIndex, size, bdId, name);
+		List<ShopInfo> shops = this.shopMapper.getShops(startIndex, size, bdId, name);
 		
-		List<ShopInfo> result = CollectionUtils.isNotEmpty(shops) ? this.getShopInfos(shops) : new ArrayList<>();
+		List<ShopInfo> result = CollectionUtils.isNotEmpty(shops) ? this.setShopServices(shops) : new ArrayList<>();
 		
 		int totalSize = this.shopMapper.selectCountByExample(null);
 		
 		return new ApiPageResult<>((long)totalSize, result);
 	}
 	
-	private List<ShopInfo> getShopInfos(List<SlShop> shops){
+	private List<ShopInfo> setShopServices(List<ShopInfo> shops){
 		Map<Long, ShopInfo> shopMap = new HashMap<>();
-		List<ShopInfo> result = new ArrayList<>();
 		
 		shops.forEach(shop -> {
-			ShopInfo si = new ShopInfo(shop);
-			
-			shopMap.put(si.getShopId(), si);
-			result.add(si);
+			shopMap.put(shop.getShopId(), shop);
 		});
 		
 		Example example = new Example(SlShopService.class);
@@ -87,12 +94,10 @@ public class ShopService {
 	    	});
 	    }
 	    
-	    return result;
+	    return shops;
 	}
 	
-	private ShopInfo getShopInfo(SlShop shop){
-		ShopInfo si = new ShopInfo(shop);
-		
+	private ShopInfo setShopService(ShopInfo shop){
 		Example example = new Example(SlShopService.class);
 	    example.createCriteria().andEqualTo("shopId", shop.getShopId()).andEqualTo("spsAvailable", 1);
 	    
@@ -100,19 +105,16 @@ public class ShopService {
 	    if(CollectionUtils.isNotEmpty(sslist)){
 	    	SlShopService ss = sslist.get(0);
 	    	
-	    	si.setServiceTime(ss.getSpsStm(), ss.getSpsEtm());
+	    	shop.setServiceTime(ss.getSpsStm(), ss.getSpsEtm());
 	    }
 	    
-	    return si;
+	    return shop;
 	}
 	
 	public ShopInfo get(Long shopId){
-		SlShop shop = this.shopMapper.selectByPrimaryKey(shopId);
-		if(shop != null){
-			
-		}
+		ShopInfo shop = this.shopMapper.getShop(shopId);
 		
-		return shop != null ? this.getShopInfo(shop) : null;
+		return shop != null ? this.setShopService(shop) : null;
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
@@ -135,7 +137,7 @@ public class ShopService {
 				ts);
 		
 		if(this.shopMapper.insert(sp) == 1){
-			return this.saveNewShopService(shop, sp.getShopId());
+			return this.saveNewShopService(shop, sp.getShopId()) && this.createShopUser(sp, shop.getShopUserPhone(), shop.getShopUserPwd());
 			
 		}else{
 			return false;
@@ -160,6 +162,43 @@ public class ShopService {
 		
 		
 		return this.shopServiceMapper.insert(ss) == 1;
+	}
+	
+	private boolean createShopUser(SlShop shop, String phone, String pwd){
+		Long ts = System.currentTimeMillis();
+		
+		List<Long> ids = this.commonService.nextId(2);
+		
+		SlUser user = new SlUser(
+				ids.get(0), 
+				shop.getBdId(), 
+				shop.getShopNm(), 
+				phone, 
+				phone, 
+				null, 
+				Common.md5(pwd), 
+				UserType.SHOP.toString(), 
+				1, 
+				0, 
+				null, 
+				null, 
+				ts, 
+				ts);
+		
+		if(this.userMapper.insert(user) == 1){
+			SlUserShop sb = new SlUserShop(
+					ids.get(1), 
+					shop.getShopId(), 
+					user.getuId(), 
+					user.getRoleId(), 
+					ts, 
+					ts);
+			
+			return this.userShopMapper.insert(sb) == 1;
+			
+		}else{
+			return false;
+		}
 	}
 	
 	@Transactional(rollbackFor = Exception.class)

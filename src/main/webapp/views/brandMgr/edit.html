@@ -85,6 +85,12 @@
 	      <input type="text" name="bdwWechatpayId" lay-verify="required" autocomplete="off" class="layui-input"/>
 	    </div>
 	  </div>
+        <div class="layui-form-item">
+            <label class="layui-form-label">管理员</label>
+            <div class="layui-input-block">
+                <input type="text" name="brandUserPhone" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly disabled="disabled">
+            </div>
+        </div>
 	  <hr/>
 	  <div class="layui-form-item" style="text-align: center;">
      	 <button class="layui-btn" lay-submit="" lay-filter="edit" url="../../api/authed/brand/edit"><i class="layui-icon">&#xe642;</i>编辑</button>
