@@ -38,6 +38,7 @@ layui.use(['layer'],function(){
 			
 			if(ret.errorCode == 0){
                 setCookie('k', ret.data.token);
+                setCookie('r', ret.data.roleId);
 				location.href = "./main/index";
 				
 			}else{

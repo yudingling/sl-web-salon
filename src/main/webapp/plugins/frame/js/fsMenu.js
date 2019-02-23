@@ -6,14 +6,46 @@
  * @License：MIT
  */
 layui.define(['element',"fsConfig","fsCommon"], function(exports){
-
+    let getCookie = function getCookie(name) {
+      var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+      return v ? v[2] : null;
+    };
+    
+    let roleId = getCookie('r');
+    
+    let menuData = [];
+    if(roleId == 'ADMIN'){
+        menuData = [
+            {"menuId":"31","menuName":"品牌管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+            {"menuId":"311","menuName":"品牌列表","menuIcon":"&#xe68e;","menuHref":"../views/brandMgr/index.html","parentMenuId":"31"},
+            {"menuId":"312","menuName":"分店列表","menuIcon":"&#xe68e;","menuHref":"../views/shopMgr/index.html","parentMenuId":"31"}
+        ];
+        
+    }else if(roleId == 'SHOP'){
+        menuData = [
+            {"menuId":"32","menuName":"店家管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+            {"menuId":"321","menuName":"基本信息","menuIcon":"&#xe68e;","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
+            {"menuId":"322","menuName":"用户管理","menuIcon":"&#xe68e;","menuHref":"../views/shopWorker/index.html","parentMenuId":"32"},
+            {"menuId":"324","menuName":"假期管理","menuIcon":"&#xe68e;","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
+            {"menuId":"325","menuName":"活动管理","menuIcon":"&#xe68e;","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"}
+        ];
+        
+    }else if(roleId == 'SHOP_WORKER'){
+        menuData = [
+            {"menuId":"32","menuName":"店家管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+            {"menuId":"321","menuName":"基本信息","menuIcon":"&#xe68e;","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
+            {"menuId":"324","menuName":"假期管理","menuIcon":"&#xe68e;","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
+            {"menuId":"325","menuName":"活动管理","menuIcon":"&#xe68e;","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"}
+        ];
+    }
+    
 	var menuConfig = {
 			dataType : "local" , //获取数据方式，local本地获取，server 服务端获取
 			loadUrl : "", //加载数据地址
 			method : "post",//请求类型，默认post
 			rootMenuId : "0", //根目录菜单id
-			defaultSelectTopMenuId : "1", //默认选中头部菜单id
-			defaultSelectLeftMenuId : "111", //默认选中左边菜单id
+			defaultSelectTopMenuId : "3", //默认选中头部菜单id
+			defaultSelectLeftMenuId : "321", //默认选中左边菜单id
 			menuIdField : "menuId", //菜单id
 			menuNameField : "menuName", //菜单名称
 			menuIconField : "menuIcon" , //菜单图标，图标必须用css
@@ -25,11 +57,6 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
                 {"menuId":"3","menuName":"我的控制台","menuIcon":"","menuHref":"","parentMenuId":0},
 				{"menuId":"11","menuName":"案例","menuIcon":"fa-table","menuHref":"","parentMenuId":1},
 				{"menuId":"12","menuName":"其他页面","menuIcon":"","menuHref":"","parentMenuId":"1"},
-                
-                {"menuId":"31","menuName":"品牌管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
-                
-                {"menuId":"311","menuName":"品牌列表","menuIcon":"&#xe68e;","menuHref":"../views/brandMgr/index.html","parentMenuId":"31"},
-                {"menuId":"312","menuName":"分店列表","menuIcon":"&#xe68e;","menuHref":"../views/shopMgr/index.html","parentMenuId":"31"},
                 
 				{"menuId":"111","menuName":"首页","menuIcon":"&#xe68e;","menuHref":"../views/home/index.html","parentMenuId":"11"},
 				{"menuId":"datagrid","menuName":"数据表格","menuIcon":"fa-list","menuHref":"../views/datagrid/index.html","parentMenuId":"11"},
@@ -50,6 +77,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 				{"menuId":"213","menuName":"选项卡","menuIcon":"","menuHref":"http://www.layui.com/demo/tab.html","parentMenuId":"21"}
 		 ] //本地数据
 	};
+    
+    menuConfig.data = menuConfig.data.concat(menuData);
 
 	var element = layui.element,
 	fsCommon = layui.fsCommon,

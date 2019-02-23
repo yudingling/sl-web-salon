@@ -57,7 +57,7 @@ public class BrandService {
 				this.slBrandMapper.getBrands(startIndex, size) : this.slBrandMapper.searchBrands(startIndex, size, idOrName, "%" + idOrName + "%");
 		
 		if(CollectionUtils.isNotEmpty(brands)){
-			this.commonService.setIconUrl(brands);
+			this.commonService.setBrandIconUrl(brands);
 		}
 		
 		int totalSize = this.slBrandMapper.selectCountByExample(null);
@@ -68,7 +68,7 @@ public class BrandService {
 	public BrandInfo get(String bdId){
 		List<BrandInfo> brands = this.slBrandMapper.getBrand(bdId);
 		if(CollectionUtils.isNotEmpty(brands)){
-			this.commonService.setIconUrl(brands);
+			this.commonService.setBrandIconUrl(brands);
 		}
 		
 		return CollectionUtils.isNotEmpty(brands) ? brands.get(0) : null;

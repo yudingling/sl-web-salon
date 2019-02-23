@@ -8,6 +8,7 @@ import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
 import com.sl.web.model.BrandInfo;
+import com.sl.web.model.EventInfo;
 import com.sl.web.util.HttpClientUtil;
 
 @Configuration
@@ -18,10 +19,18 @@ public class CommonService {
 	@Value("${id.url}")
 	private String idUrl;
 	
-	public void setIconUrl(List<BrandInfo> brands){
+	public void setBrandIconUrl(List<BrandInfo> brands){
 		brands.forEach(brand -> {
 			if(brand.getBdLogo() != null){
 				brand.setBdLogoUrl(String.format("%s/%s%s", this.fileUrl, brand.getFilePfx(), brand.getFileNm()));
+			}
+		});
+	}
+	
+	public void setEventImageUrl(List<EventInfo> events){
+		events.forEach(event -> {
+			if(event.getEventImg() != null){
+				event.setEventImgUrl(String.format("%s/%s%s", this.fileUrl, event.getFilePfx(), event.getFileNm()));
 			}
 		});
 	}

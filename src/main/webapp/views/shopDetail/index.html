@@ -33,7 +33,7 @@
 <body>
 	<div class="layui-fluid">
 
-	<form class="layui-form" id="edit_form" isLoad="1" method="get" loadUrl="../../api/authed/shop/item">
+	<form class="layui-form" id="edit_form" isLoad="1" method="get" loadUrl="../../api/authed/shopMgr/detail">
         <input type="hidden" name="shopId"/>
         <div class="layui-form-item">
             <div class="layui-inline">
@@ -90,35 +90,22 @@
             </div>
         </div>
         <div class="layui-form-item">
-            <label class="layui-form-label">sub mchId</label>
-            <div class="layui-input-block">
-                <input type="text" name="shopWechatpayId" lay-verify="required" autocomplete="off" class="layui-input"/>
-            </div>
-        </div>
-        <div class="layui-form-item">
-            <div class="layui-inline">
-                <label class="layui-form-label">服务起始</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="spsStm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="date" dateFormat="yyyy-MM-dd">
-                </div>
-            </div>
-            <div class="layui-inline">
-                <label class="layui-form-label">服务结束</label>
-                <div class="layui-input-inline">
-                    <input type="text" name="spsEtm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="date" dateFormat="yyyy-MM-dd">
-                </div>
-            </div>
-        </div>
-        <div class="layui-form-item">
             <label class="layui-form-label">管理员</label>
-            <div class="layui-input-inline">
+            <div class="layui-input-block">
                 <input type="text" name="shopUserPhone" lay-verify="required" autocomplete="off" class="layui-input layui-disabled" readonly disabled="disabled">
+            </div>
+        </div>
+        <div class="layui-form-item">
+            <div class="layui-inline">
+                <label class="layui-form-label">服务到期</label>
+                <div class="layui-input-inline">
+                    <input type="text" name="spsEtm" lay-verify="required" autocomplete="off" class="layui-input layui-disabled fsDate" dateType="date" dateFormat="yyyy-MM-dd" readonly disabled="disabled">
+                </div>
             </div>
         </div>
 	  <hr/>
 	  <div class="layui-form-item" style="text-align: center;">
-     	 <button class="layui-btn" lay-submit="" lay-filter="edit" url="../../api/authed/shop/edit"><i class="layui-icon">&#xe642;</i>编辑</button>
-     	 <button type="button" class="layui-btn layui-btn-primary" function="close">关闭</button>
+     	 <button class="layui-btn" lay-submit="" lay-filter="edit" url="../../api/authed/shopMgr/detail"><i class="layui-icon">&#xe642;</i>保存</button>
       </div>
      </form>
 

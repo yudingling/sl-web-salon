@@ -111,6 +111,29 @@ public class ShopService {
 	    return shop;
 	}
 	
+	public ShopInfo getByWorker(SigninResult auth){
+		ShopInfo shop = null;
+		
+		Example example = new Example(SlUserShop.class);
+	    example.createCriteria().andEqualTo("uId", auth.getUserId());
+	    
+	    List<SlUserShop> users = this.userShopMapper.selectByExample(example);
+	    if(CollectionUtils.isNotEmpty(users)){
+	    	shop = this.shopMapper.getShop(users.get(0).getShopId());
+	    	
+	    	if(shop != null){
+	    		this.setShopService(shop);
+	    		
+	    		//clear privacy information
+	    		shop.setShopWechatpayId(null);
+	    		shop.setShopUserPwd(null);
+	    		shop.setSpsStm(null);
+	    	}
+	    }
+		
+	    return shop;
+	}
+	
 	public ShopInfo get(Long shopId){
 		ShopInfo shop = this.shopMapper.getShop(shopId);
 		
@@ -228,5 +251,23 @@ public class ShopService {
 		}else{
 			return false;
 		}
+	}
+	
+	@Transactional(rollbackFor = Exception.class)
+	public boolean updateByWorker(SigninResult auth, ShopInfo shop){
+		Long ts = System.currentTimeMillis();
+		
+		SlShop upt = new SlShop();
+		upt.setShopId(shop.getShopId());
+		upt.setShopNm(shop.getShopNm());
+		upt.setShopLgtd(shop.getShopLgtd());
+		upt.setShopLttd(shop.getShopLttd());
+		upt.setShopLocation(shop.getShopLocation());
+		upt.setShopPhone(shop.getShopPhone());
+		upt.setShopStm(shop.getShopStm());
+		upt.setShopEtm(shop.getShopEtm());
+		upt.setUptTs(ts);
+		
+		return this.shopMapper.updateByPrimaryKeySelective(upt) == 1;
 	}
 }
