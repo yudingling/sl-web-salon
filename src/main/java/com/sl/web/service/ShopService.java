@@ -135,14 +135,14 @@ public class ShopService {
 				ts);
 		
 		if(this.shopMapper.insert(sp) == 1){
-			return this.saveNewShopService(shop);
+			return this.saveNewShopService(shop, sp.getShopId());
 			
 		}else{
 			return false;
 		}
 	}
 	
-	private boolean saveNewShopService(ShopInfo shop){
+	private boolean saveNewShopService(ShopInfo shop, Long shopId){
 		Long ts = System.currentTimeMillis();
 		
 		Long stm = DateUtil.toDate(shop.getSpsStm(), "yyyy-MM-dd").getTime();
@@ -151,7 +151,7 @@ public class ShopService {
 		
 		SlShopService ss = new SlShopService(
 				this.commonService.nextId(), 
-				shop.getShopId(), 
+				shopId, 
 				stm, 
 				etm, 
 				1, 
@@ -184,7 +184,7 @@ public class ShopService {
 			
 			this.shopServiceMapper.deleteByExample(example);
 			
-			return this.saveNewShopService(shop);
+			return this.saveNewShopService(shop, shop.getShopId());
 			
 		}else{
 			return false;

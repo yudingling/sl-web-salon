@@ -3,6 +3,7 @@ package com.sl.web.model;
 import java.io.Serializable;
 
 import com.sl.web.model.db.SlShop;
+import com.sl.web.util.Common;
 import com.sl.web.util.DateUtil;
 
 public class ShopInfo implements Serializable {
@@ -32,13 +33,13 @@ public class ShopInfo implements Serializable {
 		return shopNm;
 	}
 	public void setShopNm(String shopNm) {
-		this.shopNm = shopNm;
+		this.shopNm = Common.valString(shopNm);
 	}
 	public String getBdId() {
 		return bdId;
 	}
 	public void setBdId(String bdId) {
-		this.bdId = bdId;
+		this.bdId = Common.valString(bdId);
 	}
 	public Double getShopLgtd() {
 		return shopLgtd;
@@ -56,46 +57,52 @@ public class ShopInfo implements Serializable {
 		return shopLocation;
 	}
 	public void setShopLocation(String shopLocation) {
-		this.shopLocation = shopLocation;
+		this.shopLocation = Common.valString(shopLocation);
 	}
 	public String getShopPhone() {
 		return shopPhone;
 	}
 	public void setShopPhone(String shopPhone) {
-		this.shopPhone = shopPhone;
+		this.shopPhone = Common.valString(shopPhone);
 	}
 	public String getShopWechatpayId() {
 		return shopWechatpayId;
 	}
 	public void setShopWechatpayId(String shopWechatpayId) {
-		this.shopWechatpayId = shopWechatpayId;
+		this.shopWechatpayId = Common.valString(shopWechatpayId);
 	}
 	public String getShopStm() {
 		return shopStm;
 	}
 	public void setShopStm(String shopStm) {
-		this.shopStm = shopStm;
+		this.shopStm = Common.valString(shopStm);
 	}
 	public String getShopEtm() {
 		return shopEtm;
 	}
 	public void setShopEtm(String shopEtm) {
-		this.shopEtm = shopEtm;
+		this.shopEtm = Common.valString(shopEtm);
 	}
 	public String getSpsStm() {
 		return spsStm;
 	}
 	public void setSpsStm(String spsStm) {
-		this.spsStm = spsStm;
+		this.spsStm = Common.valString(spsStm);
 	}
 	public String getSpsEtm() {
 		return spsEtm;
 	}
 	public void setSpsEtm(String spsEtm) {
-		this.spsEtm = spsEtm;
+		this.spsEtm = Common.valString(spsEtm);
+	}
+	
+	public ShopInfo(){
+		super();
 	}
 	
 	public ShopInfo(SlShop shop){
+		super();
+		
 		this.shopId = shop.getShopId();
 		this.shopNm = shop.getShopNm();
 		this.bdId = shop.getBdId();

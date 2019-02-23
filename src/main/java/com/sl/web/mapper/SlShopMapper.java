@@ -18,5 +18,5 @@ public interface SlShopMapper extends MyMapper<SlShop> {
 			+ "</when> "
 			+ " order by crt_ts desc limit #{startIndex}, #{size} "
 			+ "</script>")
-	List<SlShop> getShops(@Param("startIndex") Integer startIndex, @Param("size") Integer size, @Param("bdId") String bdId, @Param("shopName") String nameLike);
+	List<SlShop> getShops(@Param("startIndex") Integer startIndex, @Param("size") Integer size, @Param("bdId") String bdId, @Param("nameLike") String nameLike);
 }

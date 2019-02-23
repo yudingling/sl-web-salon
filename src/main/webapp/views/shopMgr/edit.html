@@ -14,7 +14,7 @@
 	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 	<link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../../plugins/layui/css/layui.css" media="all"/>
-    <link rel="stylesheet" type="text/css" href="./plugins/notification/notification.css" />
+    <link rel="stylesheet" type="text/css" href="../../plugins/notification/notification.css" />
 	<link rel="stylesheet" type="text/css" href="../../css/fs.css" media="all"/>
 	<script type="text/javascript" src="../../plugins/layui/layui.js"></script>
 	<script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
@@ -39,7 +39,7 @@
             <div class="layui-inline">
                 <label class="layui-form-label">分店名称</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="shopNm" lay-verify="required" autocomplete="off" placeholder="请输入分店名称" class="layui-input">
+                    <input type="text" name="shopNm" lay-verify="required" autocomplete="off" class="layui-input">
                 </div>
             </div>
             <div class="layui-inline">
@@ -52,7 +52,7 @@
         <div class="layui-form-item">
             <label class="layui-form-label">分店地址</label>
             <div class="layui-input-block">
-                <input type="text" name="shopLocation" lay-verify="required" placeholder="请输入地址" autocomplete="off" class="layui-input"/>
+                <input type="text" name="shopLocation" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
@@ -72,20 +72,20 @@
         <div class="layui-form-item">
             <label class="layui-form-label">联系电话</label>
             <div class="layui-input-block">
-                <input type="text" name="shopPhone" lay-verify="required|phone" placeholder="请输入联系电话" autocomplete="off" class="layui-input"/>
+                <input type="text" name="shopPhone" lay-verify="required" autocomplete="off" class="layui-input"/>
             </div>
         </div>
         <div class="layui-form-item">
             <div class="layui-inline">
                 <label class="layui-form-label">开始营业</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="shopStm" lay-verify="required" autocomplete="off" placeholder="HH:mm" class="layui-input fsDate" dateType="time" format="HH:mm">
+                    <input type="text" name="shopStm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="time" dateFormat="HH:mm">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">结束营业</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="shopEtm" lay-verify="required" autocomplete="off" placeholder="HH:mm" class="layui-input fsDate" dateType="time" format="HH:mm">
+                    <input type="text" name="shopEtm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="time" dateFormat="HH:mm">
                 </div>
             </div>
         </div>
@@ -99,13 +99,13 @@
             <div class="layui-inline">
                 <label class="layui-form-label">服务起始</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="spsStm" lay-verify="required" autocomplete="off" placeholder="yyyy-MM-dd" class="layui-input fsDate" dateType="date" format="yyyy-MM-dd">
+                    <input type="text" name="spsStm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="date" dateFormat="yyyy-MM-dd">
                 </div>
             </div>
             <div class="layui-inline">
                 <label class="layui-form-label">服务结束</label>
                 <div class="layui-input-inline">
-                    <input type="text" name="spsEtm" lay-verify="required" autocomplete="off" placeholder="yyyy-MM-dd" class="layui-input fsDate" dateType="date" format="yyyy-MM-dd">
+                    <input type="text" name="spsEtm" lay-verify="required" autocomplete="off" class="layui-input fsDate" dateType="date" dateFormat="yyyy-MM-dd">
                 </div>
             </div>
         </div>
