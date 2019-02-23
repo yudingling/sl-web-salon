@@ -21,7 +21,7 @@ public interface SlBrandMapper extends MyMapper<SlBrand> {
 			+ " from sl_brand a inner join sl_brand_wechat c on a.bd_id = c.bd_id left join sl_file b on a.bd_logo = b.file_id"
 			+ " where a.bd_id = #{bdId} or a.bd_nm like #{nameLike} "
 			+ " order by a.crt_ts desc limit #{startIndex}, #{size}")
-	List<BrandInfo> searchBrands(@Param("startIndex") Integer startIndex, @Param("size") Integer size, @Param("id") String bdId, @Param("nameLike") String nameLike);
+	List<BrandInfo> searchBrands(@Param("startIndex") Integer startIndex, @Param("size") Integer size, @Param("bdId") String bdId, @Param("nameLike") String nameLike);
 	
 	@Select("select a.bd_id, a.bd_nm, a.bd_logo, a.bd_url, b.file_pfx, b.file_nm, c.bdw_appid, c.bdw_secret, c.bdw_wechatpay_id "
 			+ " from sl_brand a inner join sl_brand_wechat c on a.bd_id = c.bd_id left join sl_file b on a.bd_logo = b.file_id"

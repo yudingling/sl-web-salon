@@ -51,6 +51,8 @@ layui.define(['layer',"fsCommon","form",'laydate',"fsConfig",'layedit'], functio
     thisForm.bindButtonSubmit();
         
     thisForm.renderImage();
+        
+    thisForm.rendTextEnter();
 
     return thisForm;
 	};
@@ -155,6 +157,22 @@ layui.define(['layer',"fsCommon","form",'laydate',"fsConfig",'layedit'], functio
 			});
 
 	};
+    
+    FsForm.prototype.rendTextEnter = function(){
+        let queryBtn = $(this.config.elem).find("button[function='query']");
+        
+        $(this.config.elem).find("input[type='text']").each(function(){
+            $(this).keydown(function(event){
+                if(event.which == 13){
+                    if(queryBtn && queryBtn.length > 0){
+                        queryBtn.click();
+                    }
+                    
+                    return false;
+                }
+            });
+        });
+    };
     
     FsForm.prototype.renderImage = function(){
         $(this.config.elem).find("img").each(function(){

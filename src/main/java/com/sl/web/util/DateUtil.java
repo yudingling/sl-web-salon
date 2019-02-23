@@ -25,8 +25,8 @@ public class DateUtil {
 	 * @param formatStr yyyy-MM-dd HH:mm:ss
 	 * @return
 	 */
-	public static String toString(Date tm, String formatStr){
-		return tm == null ? "" : (new SimpleDateFormat(formatStr)).format(tm);
+	public static String toString(Long tm, String formatStr){
+		return tm == null ? "" : (new SimpleDateFormat(formatStr)).format(new Date(tm));
 	}
 	
 	/**
@@ -36,6 +36,22 @@ public class DateUtil {
 		try{
 			if(StringUtils.hasText(str)){
 				return (new SimpleDateFormat(YMDHS)).parse(str);
+			}
+			
+		}catch(Exception ex){
+			throw new IllegalArgumentException(ex);
+		}
+		
+		throw new IllegalArgumentException("value is empty");
+	}
+	
+	/**
+	 * yyyy-MM-dd HH:mm:ss to date
+	 */
+	public static Date toDate(String str, String formatStr) {
+		try{
+			if(StringUtils.hasText(str)){
+				return (new SimpleDateFormat(formatStr)).parse(str);
 			}
 			
 		}catch(Exception ex){
@@ -61,8 +77,8 @@ public class DateUtil {
 		return addTs(ts, Calendar.MONTH, months);
 	}
 	
-	public static long addDay(long ts, int months) {
-		return addTs(ts, Calendar.DAY_OF_MONTH, months);
+	public static long addDay(long ts, int days) {
+		return addTs(ts, Calendar.DAY_OF_MONTH, days);
 	}
 	
 	public static long addHour(long ts, int hours) {

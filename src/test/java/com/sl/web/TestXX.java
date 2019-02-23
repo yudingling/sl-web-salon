@@ -34,4 +34,5 @@ public class TestXX {
 		System.out.println(this.nextId());
 		System.out.println(JSON.toJSONString(this.nextId(3)));
 	}
+	
 }

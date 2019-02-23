@@ -46,8 +46,16 @@
 <div class="layui-form-query">
 <form class="layui-form" id="query_form">
 	<div class="layui-form-item">
+        <div class="layui-inline">
+			<label class="layui-form-mid">品牌：</label>
+			<div class="layui-input-inline">
+                <select name="bdId" lay-search="">
+                  <option value="">直接选择或搜索选择</option>
+                </select>
+			</div>
+		</div>
 		<div class="layui-inline">
-			<label class="layui-form-mid">ID或名称：</label>
+			<label class="layui-form-mid">分店名称：</label>
 			<div class="layui-input-inline" style="width: 100px;">
 				<input type="text" name="name" autocomplete="off" class="layui-input"/>
 			</div>
@@ -64,7 +72,7 @@
   	 <div class="layui-col-md12">
   	 	<div class="layui-row grid-demo">
 	      <div class="layui-col-md12">
-        	<button class="layui-btn" function="top" topUrl="../views/brandMgr/add.html" topWidth="800px" topHeight="600px" topTitle="新增品牌">
+        	<button class="layui-btn" function="top" topUrl="../views/shopMgr/add.html" topWidth="800px" topHeight="600px" topTitle="新增品牌">
 			  <i class="layui-icon">&#xe654;</i>新增
 			</button>
 			<button class="layui-btn" function="refresh">
@@ -72,32 +80,24 @@
 			</button>
 	      </div>
 	      <div class="layui-col-md12">
-	         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1" url="../../api/authed/brand/list" isPage="1" sortType="1" pageSize="10" defaultForm="query_form" height="full-135"></table>
+	         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1" url="../../api/authed/shop/list" isPage="1" sortType="1" pageSize="10" defaultForm="query_form" height="full-135"></table>
               
 	         <div class="fsDatagridCols">
 						<p type="numbers" title="#"/>
-						<p field="bdId" title="品牌ID" width="200" sort="true"/>
-						<p field="bdNm" title="名称" width="200" sort="true" />
-						<p field="bdLogoUrl" title="图标" width="150" templet='#logoTpl'/>
-                        <p field="bdUrl" title="描述URL" width="150" templet='#urlTpl'/>
-						<p field="bdwAppid" title="appId" width="200" />
-                        <p field="bdwWechatpayId" title="mchId" width="200" />
+                        <p field="bdId" title="品牌ID" width="200" />
+						<p field="shopNm" title="分店名称" width="150" />
+						<p field="shopLocation" title="分店地址" width="300"/>
+                        <p field="shopPhone" title="联系电话" width="150"/>
+                        <p field="shopStm" title="营业起始" width="100"/>
+                        <p field="shopEtm" title="营业结束" width="100"/>
+                        <p field="spsStm" title="服务起始" width="100"/>
+                        <p field="spsEtm" title="服务结束" width="100"/>
 						<p fixed="right" align="center" toolbar="#barDemo" title="操作" width="150"/>
 					</div>
             
-            <script type="text/html" id="logoTpl">
-                <div style="background-image:url({{ d.bdLogoUrl }});" class="imgTd"></div>
-            </script>
-
-            <script type="text/html" id="urlTpl">
-                {{#  if(d.bdUrl && d.bdUrl.length > 0){ }}
-                    <a href="{{ d.bdUrl }}" class="layui-table-link" target="_blank">点击查看</a>
-                {{#  } }}
-            </script>
-            
 			<script type="text/html" id="barDemo">
-				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="../views/brandMgr/edit.html" topMode="readonly" topWidth="800px" topHeight="500px" topTitle="详情" inputs="bdId:">查看</a>
- 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="../views/brandMgr/edit.html" topWidth="800px" topHeight="500px" topTitle="编辑" inputs="bdId:">编辑</a>
+				<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="top" topUrl="../views/shopMgr/edit.html" topMode="readonly" topWidth="800px" topHeight="500px" topTitle="详情" inputs="shopId:">查看</a>
+ 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="../views/shopMgr/edit.html" topWidth="800px" topHeight="500px" topTitle="编辑" inputs="shopId:">编辑</a>
 			</script>
 	      </div>
 	    </div>
@@ -105,5 +105,37 @@
   </div>
 </div>
 </div>
+    <script>
+        layui.use([], function(){
+            $.ajax({
+                url: '../../api/authed/brand/list',
+                data: {
+                    pageNum: 1,
+                    pageSize: 100000
+                }
+            }).done(function(ret){
+                ret = evalJson(ret);
+                
+                if(ret.errorCode == 0){
+                    let options = [];
+                    
+                    let barands = ret.data;
+                    brans.forEach(function(brand, index){
+                       options.push($('<option>').attr('value', brand.bdId).text(brand.bdNm)); 
+                    });
+                    
+                    $('#query_form').find('select[name="bdId"]').append(options);
+
+                }else{
+                    Notice.error("请求错误", ret.errorMsg);
+                }
+
+            }).fail(function(error){
+                var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                Notice.error("请求错误!", errMsg);
+            });
+
+        });
+    </script>
 </body>
 </html>
