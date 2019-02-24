@@ -37,6 +37,14 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"324","menuName":"假期管理","menuIcon":"&#xe68e;","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
             {"menuId":"325","menuName":"活动管理","menuIcon":"&#xe68e;","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"}
         ];
+        
+    }else if(roleId == 'BRAND' || roleId == 'BRAND_WORKER'){
+        menuData = [
+            {"menuId":"33","menuName":"产品/项目管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+            {"menuId":"331","menuName":"产品类型","menuIcon":"&#xe68e;","menuHref":"../views/productType/index.html","parentMenuId":"33"},
+            {"menuId":"332","menuName":"产品列表","menuIcon":"&#xe68e;","menuHref":"../views/product/index.html","parentMenuId":"33"},
+            {"menuId":"333","menuName":"项目管理","menuIcon":"&#xe68e;","menuHref":"../views/project/index.html","parentMenuId":"33"}
+        ];
     }
     
 	var menuConfig = {

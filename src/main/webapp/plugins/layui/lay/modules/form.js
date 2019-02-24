@@ -364,9 +364,11 @@ layui.define('layer', function(exports){
               ,reElem.addClass(RE_CLASS[1]).find('em').text(text[0])
             );
             
+            let val = check[0].checked ? check[0].value : check.attr('dis-value');
+              
             layui.event.call(check[0], MOD_NAME, RE_CLASS[2]+'('+ filter +')', {
               elem: check[0]
-              ,value: check[0].value
+              ,value: val
               ,othis: reElem
             });
           });
@@ -530,9 +532,10 @@ layui.define('layer', function(exports){
         item.name = item.name.replace(/^(.*)\[\]$/, '$1['+ (nameIndex[key]++) +']');
       }
       
-      if(/^checkbox|radio$/.test(item.type) && !item.checked) return;      
+      if(/^radio$/.test(item.type) && !item.checked) return;      
       var value = item.value;
       if(item.type == "checkbox"){//如果多选
+        value = item.checked ? item.value : $(item).attr('dis-value');
       	if(field[item.name]){
       		value = field[item.name] + "," + value;
       	}
