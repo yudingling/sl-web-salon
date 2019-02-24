@@ -16,34 +16,42 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
     let menuData = [];
     if(roleId == 'ADMIN'){
         menuData = [
-            {"menuId":"31","menuName":"品牌管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
+            {"menuId":"31","menuName":"品牌管理","menuIcon":"","menuHref":"","parentMenuId":3},
             {"menuId":"311","menuName":"品牌列表","menuIcon":"&#xe68e;","menuHref":"../views/brandMgr/index.html","parentMenuId":"31"},
             {"menuId":"312","menuName":"分店列表","menuIcon":"&#xe68e;","menuHref":"../views/shopMgr/index.html","parentMenuId":"31"}
         ];
         
     }else if(roleId == 'SHOP'){
         menuData = [
-            {"menuId":"32","menuName":"店家管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
-            {"menuId":"321","menuName":"基本信息","menuIcon":"&#xe68e;","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
-            {"menuId":"322","menuName":"用户管理","menuIcon":"&#xe68e;","menuHref":"../views/shopWorker/index.html","parentMenuId":"32"},
-            {"menuId":"324","menuName":"假期管理","menuIcon":"&#xe68e;","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
-            {"menuId":"325","menuName":"活动管理","menuIcon":"&#xe68e;","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"}
+            {"menuId":"32","menuName":"店家管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"321","menuName":"基本信息","menuIcon":"fa-info-circle","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
+            {"menuId":"322","menuName":"用户管理","menuIcon":"fa-user-o","menuHref":"../views/shopWorker/index.html","parentMenuId":"32"},
+            {"menuId":"324","menuName":"假期管理","menuIcon":"fa-paper-plane-o","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
+            {"menuId":"325","menuName":"活动管理","menuIcon":"fa-hashtag","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"},
+            {"menuId":"34","menuName":"理发师管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"341","menuName":"理发师列表","menuIcon":"fa-user-circle","menuHref":"../views/barber/index.html","parentMenuId":"34"},
+            {"menuId":"342","menuName":"项目设定","menuIcon":"fa-envira","menuHref":"../views/barberProject/index.html","parentMenuId":"34"},
+            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"}
         ];
         
     }else if(roleId == 'SHOP_WORKER'){
         menuData = [
-            {"menuId":"32","menuName":"店家管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
-            {"menuId":"321","menuName":"基本信息","menuIcon":"&#xe68e;","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
-            {"menuId":"324","menuName":"假期管理","menuIcon":"&#xe68e;","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
-            {"menuId":"325","menuName":"活动管理","menuIcon":"&#xe68e;","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"}
+            {"menuId":"32","menuName":"店家管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"321","menuName":"基本信息","menuIcon":"fa-info-circle","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
+            {"menuId":"324","menuName":"假期管理","menuIcon":"fa-paper-plane-o","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
+            {"menuId":"325","menuName":"活动管理","menuIcon":"fa-hashtag","menuHref":"../views/shopEvent/index.html","parentMenuId":"32"},
+            {"menuId":"34","menuName":"理发师管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"341","menuName":"理发师列表","menuIcon":"&#xe68e;","menuHref":"../views/barber/index.html","parentMenuId":"34"},
+            {"menuId":"342","menuName":"项目设定","menuIcon":"fa-envira","menuHref":"../views/barberProject/index.html","parentMenuId":"34"},
+            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"}
         ];
         
     }else if(roleId == 'BRAND' || roleId == 'BRAND_WORKER'){
         menuData = [
-            {"menuId":"33","menuName":"产品/项目管理","menuIcon":"fa-table","menuHref":"","parentMenuId":3},
-            {"menuId":"331","menuName":"产品类型","menuIcon":"&#xe68e;","menuHref":"../views/productType/index.html","parentMenuId":"33"},
-            {"menuId":"332","menuName":"产品列表","menuIcon":"&#xe68e;","menuHref":"../views/product/index.html","parentMenuId":"33"},
-            {"menuId":"333","menuName":"项目管理","menuIcon":"&#xe68e;","menuHref":"../views/project/index.html","parentMenuId":"33"}
+            {"menuId":"33","menuName":"产品/项目管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"331","menuName":"产品类型","menuIcon":"fa-product-hunt","menuHref":"../views/productType/index.html","parentMenuId":"33"},
+            {"menuId":"332","menuName":"产品列表","menuIcon":"fa-list-ul","menuHref":"../views/product/index.html","parentMenuId":"33"},
+            {"menuId":"333","menuName":"项目管理","menuIcon":"fa-list-ul","menuHref":"../views/project/index.html","parentMenuId":"33"}
         ];
     }
     
