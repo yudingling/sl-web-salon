@@ -55,14 +55,14 @@ public class BrandService {
 		idOrName = Common.valString(idOrName);
 		List<BrandInfo> brands = StringUtils.isEmpty(idOrName) ? 
 				this.slBrandMapper.getBrands(startIndex, size) : this.slBrandMapper.searchBrands(startIndex, size, idOrName, "%" + idOrName + "%");
+				
+		Long totalSize = StringUtils.isEmpty(idOrName) ? this.slBrandMapper.getBrandCount() : this.slBrandMapper.searchBrandCount(idOrName, "%" + idOrName + "%");
 		
 		if(CollectionUtils.isNotEmpty(brands)){
 			this.commonService.setBrandIconUrl(brands);
 		}
 		
-		int totalSize = this.slBrandMapper.selectCountByExample(null);
-		
-		return new ApiPageResult<>((long)totalSize, brands);
+		return new ApiPageResult<>(totalSize, brands);
 	}
 	
 	public BrandInfo get(String bdId){

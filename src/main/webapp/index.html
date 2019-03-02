@@ -15,6 +15,7 @@
 	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
 	<link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
 	<link rel="stylesheet" type="text/css" href="../plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="../plugins/notification/notification.css" />
 	<link href="https://cdn.bootcss.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet">
 	<script type="text/javascript" src="../plugins/jquery/jquery.min.js"></script>
 	<link href="../plugins/contextMenu/jquery.contextMenu.min.css" rel="stylesheet">
@@ -25,6 +26,8 @@
 	<script type="text/javascript" src="../plugins/frame/js/fsDict.js?v=1.8.4"></script>
 	<script type="text/javascript" src="../plugins/frame/js/fs.js?v=1.8.4"></script>
 	<script type="text/javascript" src="../plugins/frame/js/main.js?v=1.8.4"></script>
+    <script type="text/javascript" src="../plugins/notification/notification.js"></script>
+    <script type="text/javascript" src="../plugins/notification/Notice.js"></script>
 </head>
 <body>
 <div class="layui-layout layui-layout-admin">
@@ -41,15 +44,14 @@
     <ul class="layui-nav layui-layout-right">
       <li class="layui-nav-item layui-hide-xs">
         <a href="javascript:;">
-        	<img src="http://q.qlogo.cn/qqapp/101235792/5F344D27449D79D64FE873AF8E907139/100" class="layui-nav-img">
-         	FallSea
+        	<img style="display: none" class="userIcon layui-nav-img"> <span class="userNm"></span>
         </a>
         <dl class="layui-nav-child">
-          <dd><a href="javascript:;">基本资料</a></dd>
-          <dd><a href="javascript:;">安全设置</a></dd>
+          <dd><a href="javascript:;" class="basicInfo">基本资料</a></dd>
+          <dd><a href="javascript:;" class="pwdInfo">安全设置</a></dd>
         </dl>
       </li>
-      <li class="layui-nav-item layui-hide-xs"><a href="javascript:;"><i class="fa fa-sign-out"></i> 退出</a></li>
+      <li class="layui-nav-item layui-hide-xs"><a class="signout" href="javascript:;"><i class="fa fa-sign-out"></i> 退出</a></li>
     </ul>
   </div>
 
@@ -91,5 +93,65 @@
   <i class="layui-icon">&#xe602;</i>
 </div>
 <div class="site-mobile-shade"></div>
+    <script>
+        layui.use(['fsCommon'], function(){
+            let fsCommon = layui.fsCommon;
+            
+            $('a.signout').click(function(){
+                $.ajax({
+                    url: '../api/authed/normal/signout'
+                }).done(function(ret){
+                    ret = evalJson(ret);
+
+                    if(ret.errorCode == 0){
+                        location.href = "../";
+                        
+                    }else{
+                        Notice.error("请求错误", ret.errorMsg);
+                    }
+
+                }).fail(function(error){
+                    var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                    Notice.error("请求错误!", errMsg);
+                });
+                
+            });
+            
+            let reloadInfo = function(){
+                $.ajax({
+                    url: '../api/authed/normal/userInfo'
+                }).done(function(ret){
+                    ret = evalJson(ret);
+
+                    if(ret.errorCode == 0){
+                        let info = ret.data;
+
+                        $('img.userIcon').attr('src', info.uIconUrl).show();
+                        $('span.userNm').text(info.uNm);
+
+                    }else{
+                        Notice.error("请求错误", ret.errorMsg);
+                    }
+
+                }).fail(function(error){
+                    var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                    Notice.error("请求错误!", errMsg);
+                });
+            };
+            
+            $('.basicInfo').click(function(){
+                fsCommon.open('基本信息', '600px', '400px', '../views/userInfo/editInfo.html', function(){
+                    reloadInfo();
+                });
+            });
+            
+            $('.pwdInfo').click(function(){
+                fsCommon.open('密码修改', '600px', '400px', '../views/userInfo/editPwd.html');
+            });
+            
+            reloadInfo();
+
+        });
+    </script>
 </body>
 </html>

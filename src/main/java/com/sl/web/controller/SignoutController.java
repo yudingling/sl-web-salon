@@ -11,7 +11,7 @@ import com.sl.web.model.result.ApiResult;
 import com.sl.web.service.TokenService;
 
 @RestController
-@RequestMapping("/authed/signout")
+@RequestMapping("/authed/normal/signout")
 public class SignoutController {
 	@Autowired
 	private TokenService tokenService;

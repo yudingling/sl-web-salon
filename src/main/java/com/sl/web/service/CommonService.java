@@ -11,6 +11,7 @@ import com.sl.web.model.BrandInfo;
 import com.sl.web.model.EventInfo;
 import com.sl.web.model.ProductInfo;
 import com.sl.web.model.ProjectProductInfo;
+import com.sl.web.model.UserInfo;
 import com.sl.web.util.HttpClientUtil;
 
 @Configuration
@@ -20,6 +21,12 @@ public class CommonService {
 	private String fileUrl;
 	@Value("${id.url}")
 	private String idUrl;
+	
+	public void setUserIconUrl(UserInfo info){
+		if(info.getuIcon() != null){
+			info.setuIconUrl(String.format("%s/%s%s", this.fileUrl, info.getFilePfx(), info.getFileNm()));
+		}
+	}
 	
 	public void setBrandIconUrl(List<BrandInfo> brands){
 		brands.forEach(brand -> {

@@ -71,9 +71,9 @@ public class ShopService {
 		
 		List<ShopInfo> result = CollectionUtils.isNotEmpty(shops) ? this.setShopServices(shops) : new ArrayList<>();
 		
-		int totalSize = this.shopMapper.selectCountByExample(null);
+		Long totalSize = this.shopMapper.getShopCount(bdId, name);
 		
-		return new ApiPageResult<>((long)totalSize, result);
+		return new ApiPageResult<>(totalSize, result);
 	}
 	
 	private List<ShopInfo> setShopServices(List<ShopInfo> shops){

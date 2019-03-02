@@ -59,13 +59,6 @@ public class ShopWorkerService {
 	    }
 	}
 	
-	private long getWorkerCount(Long shopId){
-		Example example = new Example(SlUserShop.class);
-	    example.createCriteria().andEqualTo("shopId", shopId).andEqualTo("roleId", UserType.SHOP_WORKER.toString());
-	    
-	    return (long) this.userShopMapper.selectCountByExample(example);
-	}
-	
 	public ApiPageResult<SlUser> getList(int pageNum, int pageSize, SigninResult auth, String phone){
 		int startIndex = this.getStartIndex(pageNum, pageSize);
 		int size = this.getSize(pageSize);
@@ -80,7 +73,7 @@ public class ShopWorkerService {
 		if(shopId != null){
 			List<SlUser> workers = this.userMapper.getShopWorkers(startIndex, size, shopId, phone);
 			
-			return new ApiPageResult<>(this.getWorkerCount(shopId), workers);
+			return new ApiPageResult<>(this.userMapper.getShopWorkerCount(shopId, phone), workers);
 			
 		}else{
 			return new ApiPageResult<>(0l, new ArrayList<>());

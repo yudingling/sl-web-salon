@@ -58,13 +58,6 @@ public class ProjectService {
 	    }
 	}
 	
-	private long getProjectCount(String bdId){
-		Example example = new Example(SlProject.class);
-	    example.createCriteria().andEqualTo("bdId", bdId);
-	    
-	    return (long) this.projectMapper.selectCountByExample(example);
-	}
-	
 	public ApiPageResult<SlProject> getList(int pageNum, int pageSize, SigninResult auth, String name){
 		int startIndex = this.getStartIndex(pageNum, pageSize);
 		int size = this.getSize(pageSize);
@@ -79,7 +72,7 @@ public class ProjectService {
 		if(StringUtils.isNotEmpty(bdId)){
 			List<SlProject> projects = this.projectMapper.getProjects(startIndex, size, bdId, name);
 			
-			return new ApiPageResult<>(this.getProjectCount(bdId), projects);	
+			return new ApiPageResult<>(this.projectMapper.getProjectCount(bdId, name), projects);	
 		}
 		
 		return new ApiPageResult<>(0l, new ArrayList<>());

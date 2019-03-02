@@ -55,13 +55,6 @@ public class ProductService {
 	    }
 	}
 	
-	private long getProductCount(String bdId){
-		Example example = new Example(SlProduct.class);
-	    example.createCriteria().andEqualTo("bdId", bdId);
-	    
-	    return (long) this.productMapper.selectCountByExample(example);
-	}
-	
 	public ApiPageResult<ProductInfo> getList(int pageNum, int pageSize, SigninResult auth, String name, Long pdtpId, Integer enabled){
 		int startIndex = this.getStartIndex(pageNum, pageSize);
 		int size = this.getSize(pageSize);
@@ -76,11 +69,13 @@ public class ProductService {
 		if(StringUtils.isNotEmpty(bdId)){
 			List<ProductInfo> products = this.productMapper.getProducts(startIndex, size, bdId, pdtpId, name, enabled);
 			
+			Long totalSize = this.productMapper.getProductCount(bdId, pdtpId, name, enabled);
+			
 			if(CollectionUtils.isNotEmpty(products)){
 				this.commonService.setProductImageUrl(products);
-				
-				return new ApiPageResult<>(this.getProductCount(bdId), products);
-			}	
+			}
+			
+			return new ApiPageResult<>(totalSize, products);
 		}
 		
 		return new ApiPageResult<>(0l, new ArrayList<>());

@@ -56,13 +56,6 @@ public class ShopHolidayService {
 	    }
 	}
 	
-	private long getHolidayCount(Long shopId){
-		Example example = new Example(SlShopHoliday.class);
-	    example.createCriteria().andEqualTo("shopId", shopId);
-	    
-	    return (long) this.holidayMapper.selectCountByExample(example);
-	}
-	
 	public ApiPageResult<HolidayInfo> getList(int pageNum, int pageSize, SigninResult auth, String desc){
 		int startIndex = this.getStartIndex(pageNum, pageSize);
 		int size = this.getSize(pageSize);
@@ -77,7 +70,7 @@ public class ShopHolidayService {
 		if(shopId != null){
 			List<HolidayInfo> holidays = this.holidayMapper.getHolidays(startIndex, size, shopId, desc);
 			
-			return new ApiPageResult<>(this.getHolidayCount(shopId), holidays);
+			return new ApiPageResult<>(this.holidayMapper.getHolidayCount(shopId, desc), holidays);
 			
 		}else{
 			return new ApiPageResult<>(0l, new ArrayList<>());

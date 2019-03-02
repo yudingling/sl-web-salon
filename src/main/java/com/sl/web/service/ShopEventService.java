@@ -56,13 +56,6 @@ public class ShopEventService {
 	    }
 	}
 	
-	private long getEventCount(Long shopId){
-		Example example = new Example(SlShopEvent.class);
-	    example.createCriteria().andEqualTo("shopId", shopId);
-	    
-	    return (long) this.eventMapper.selectCountByExample(example);
-	}
-	
 	public ApiPageResult<EventInfo> getList(int pageNum, int pageSize, SigninResult auth, String name){
 		int startIndex = this.getStartIndex(pageNum, pageSize);
 		int size = this.getSize(pageSize);
@@ -79,9 +72,9 @@ public class ShopEventService {
 			
 			if(CollectionUtils.isNotEmpty(events)){
 				this.commonService.setEventImageUrl(events);
-				
-				return new ApiPageResult<>(this.getEventCount(shopId), events);
-			}	
+			}
+			
+			return new ApiPageResult<>(this.eventMapper.getEventCount(shopId, name), events);
 		}
 		
 		return new ApiPageResult<>(0l, new ArrayList<>());
