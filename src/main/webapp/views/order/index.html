@@ -1,0 +1,206 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="text/html;charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta http-equiv ="Pragma" content = "no-cache"/>
+	<meta http-equiv="Cache-Control" content="no cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="format-detection" content="telephone=no"/>
+	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+	<link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="../../plugins/notification/notification.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fs.css" media="all"/>
+	<script type="text/javascript" src="../../plugins/layui/layui.js"></script>
+	<script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/fsDict.js?v=1.7.0"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/fs.js?v=1.7.0"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/frame.js?v=1.7.0"></script>
+    <script type="text/javascript" src="../../plugins/notification/notification.js"></script>
+    <script type="text/javascript" src="../../plugins/notification/Notice.js"></script>
+    <style>
+        span.odConfirm0{
+        }
+        span.odConfirm1{
+            color: #5FB878;
+        }
+        span.odConfirm2{
+            color: #d2d2d2;
+        }
+    </style>
+</head>
+<body>
+  <div >
+   <div class="layui-fluid">
+  <div class="layui-row layui-col-space1">
+  	 <div class="layui-col-md12">
+<div class="layui-form-query">
+<form class="layui-form" id="query_form">
+	<div class="layui-form-item">
+        <div class="layui-inline">
+			<label class="layui-form-mid">理发师：</label>
+			<div class="layui-input-inline">
+                <select name="barberUid" lay-search="">
+                  <option value="">直接选择或搜索选择</option>
+                </select>
+			</div>
+		</div>
+        <div class="layui-inline">
+			<label class="layui-form-mid">项目：</label>
+			<div class="layui-input-inline">
+                <select name="projectId" lay-search="">
+                  <option value="">直接选择或搜索选择</option>
+                </select>
+			</div>
+		</div>
+        <div class="layui-inline">
+			<label class="layui-form-mid">时间范围：</label>
+			<div class="layui-input-inline" style="">
+				<input type="text" name="tmRange" autocomplete="off" class="layui-input fsDate" dateRange="1" placeholder=" - "/>
+			</div>
+		</div>
+        <div class="layui-inline">
+			<label class="layui-form-label">支付状态</label>
+            <div class="layui-input-block">
+              <input type="radio" name="paied" value="" title="全部" checked="">
+              <input type="radio" name="paied" value="1" title="已支付">
+              <input type="radio" name="paied" value="0" title="未支付">
+            </div>
+		</div>
+        <div class="layui-inline">
+			<label class="layui-form-label">订单状态</label>
+            <div class="layui-input-block">
+              <input type="radio" name="confirmed" value="" title="全部" checked="">
+              <input type="radio" name="confirmed" value="1" title="已确认">
+              <input type="radio" name="confirmed" value="0" title="待确认">
+              <input type="radio" name="confirmed" value="2" title="已取消">
+            </div>
+		</div>
+		<div class="layui-inline">
+			<div class="layui-input-inline">
+				<button class="layui-btn" type="button" function="query"><i class="layui-icon">&#xe615;</i>查询</button>
+			</div>
+		</div>
+	</div>
+</form>
+</div>
+  	 </div>
+  	 <div class="layui-col-md12">
+  	 	<div class="layui-row grid-demo">
+	      <div class="layui-col-md12">
+			<button class="layui-btn" function="refresh">
+			  <i class="layui-icon">&#x1002;</i>刷新
+			</button>
+	      </div>
+	      <div class="layui-col-md12">
+	         <table id="fsDatagrid" lay-filter="fsDatagrid" class="fsDatagrid" isLoad="1" url="../../api/authed/shopMgr/order/list" isPage="1" sortType="1" pageSize="10" defaultForm="query_form" height="full-135"></table>
+              
+	         <div class="fsDatagridCols">
+                <p type="numbers" title="#"/>
+                <p field="odStm" title="时间" width="100" templet='#tmTpl'/>
+                <p field="odConfirm" title="状态" width="100" templet='#confirmTpl' />
+                <p field="odUnm" title="用户" width="100" />
+                <p field="odUphone" title="用户手机" width="100" />
+                <p field="pjNm" title="项目" width="100" />
+                <p field="odBarberUnm" title="理发师" width="100" />
+                <p field="odTotalPrice" title="总金额" width="100" />
+                <p field="odDiscount" title="会员折扣" width="80" />
+                <p field="odOfferPrice" title="优惠金额" width="80" />
+                <p field="odPayPrice" title="待支付金额" width="80" />
+                <p field="odPaied" title="是否支付" width="80" templet='#paiedTpl' />
+                <p field="odPaied" title="用户评价" width="80" />
+            </div>
+            <script type="text/html" id="tmTpl">
+                <label>{{ layui.fsUtil.toDateString(parseInt(d.odStm), "yyyy-MM-dd HH:mm") }}</label>
+            </script>
+            <script type="text/html" id="confirmTpl">
+                {{#  if(parseInt(d.odConfirm) == 1){ }}
+                    <span class="odConfirm1">已确认</span>
+                {{#  }else if(parseInt(d.odConfirm) == 0){ }}
+                    <span class="odConfirm0">待确认</span>
+                {{# } else { }}
+                    <span class="odConfirm2">已取消</span>
+                {{# } }}
+            </script>
+            <script type="text/html" id="paiedTpl">
+                {{#  if(parseInt(d.odPaied) == 1){ }}
+                    <input type="checkbox" checked="" lay-skin="switch" disabled lay-text="yes">
+                {{#  }else{ }}
+                    <input type="checkbox" lay-skin="switch" disabled  lay-text="no">
+                {{# } }}
+            </script>
+              
+			<script type="text/html" id="barDemo">
+ 				<a class="layui-btn layui-btn-xs" lay-event="top" topUrl="../views/barberProject/edit.html" topWidth="800px" topHeight="350px" topTitle="编辑" inputs="bbpId:">编辑</a>
+			</script>
+	      </div>
+	    </div>
+  	 </div>
+  </div>
+</div>
+</div>
+    <script>
+        layui.use([], function(){
+            $.ajax({
+                method: 'POST',
+                url: '../../api/authed/shopMgr/barber/list',
+                data: {
+                    pageNum: 1,
+                    pageSize: 100000
+                }
+            }).done(function(ret){
+                ret = evalJson(ret);
+                
+                if(ret.errorCode == 0){
+                    let options = [];
+                    
+                    let pts = ret.data;
+                    pts.forEach(function(pt, index){
+                       options.push($('<option>').attr('value', pt.uId).text(pt.uNm)); 
+                    });
+                    
+                    $('#query_form').find('select[name="barberUid"]').append(options);
+
+                }else{
+                    Notice.error("请求错误", ret.errorMsg);
+                }
+
+            }).fail(function(error){
+                var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                Notice.error("请求错误!", errMsg);
+            });
+            
+            $.ajax({
+                method: 'POST',
+                url: '../../api/authed/shopMgr/barberPrj/allProjects'
+            }).done(function(ret){
+                ret = evalJson(ret);
+                
+                if(ret.errorCode == 0){
+                    let options = [];
+                    
+                    let pts = ret.data;
+                    pts.forEach(function(pt, index){
+                       options.push($('<option>').attr('value', pt.pjId).text(pt.pjNm));
+                    });
+                    
+                    $('#query_form').find('select[name="projectId"]').append(options);
+
+                }else{
+                    Notice.error("请求错误", ret.errorMsg);
+                }
+
+            }).fail(function(error){
+                var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                Notice.error("请求错误!", errMsg);
+            });
+
+        });
+    </script>
+</body>
+</html>

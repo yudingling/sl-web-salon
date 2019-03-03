@@ -31,7 +31,9 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"34","menuName":"理发师管理","menuIcon":"","menuHref":"","parentMenuId":3},
             {"menuId":"341","menuName":"理发师列表","menuIcon":"fa-user-circle","menuHref":"../views/barber/index.html","parentMenuId":"34"},
             {"menuId":"342","menuName":"项目设定","menuIcon":"fa-envira","menuHref":"../views/barberProject/index.html","parentMenuId":"34"},
-            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"}
+            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"},
+            {"menuId":"35","menuName":"订单管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"351","menuName":"历史订单","menuIcon":"fa-list-ul","menuHref":"../views/order/index.html","parentMenuId":"35"}
         ];
         
     }else if(roleId == 'SHOP_WORKER'){
@@ -43,7 +45,9 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"34","menuName":"理发师管理","menuIcon":"","menuHref":"","parentMenuId":3},
             {"menuId":"341","menuName":"理发师列表","menuIcon":"&#xe68e;","menuHref":"../views/barber/index.html","parentMenuId":"34"},
             {"menuId":"342","menuName":"项目设定","menuIcon":"fa-envira","menuHref":"../views/barberProject/index.html","parentMenuId":"34"},
-            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"}
+            {"menuId":"343","menuName":"时段屏蔽","menuIcon":"fa-clock-o","menuHref":"../views/barberShield/index.html","parentMenuId":"34"},
+            {"menuId":"35","menuName":"订单管理","menuIcon":"","menuHref":"","parentMenuId":3},
+            {"menuId":"351","menuName":"历史订单","menuIcon":"fa-list-ul","menuHref":"../views/order/index.html","parentMenuId":"35"}
         ];
         
     }else if(roleId == 'BRAND' || roleId == 'BRAND_WORKER'){
