@@ -32,6 +32,9 @@
         span.odConfirm2{
             color: #d2d2d2;
         }
+        span.eva{
+            color: #FF5722;
+        }
     </style>
 </head>
 <body>
@@ -102,18 +105,18 @@
               
 	         <div class="fsDatagridCols">
                 <p type="numbers" title="#"/>
-                <p field="odStm" title="时间" width="100" templet='#tmTpl'/>
-                <p field="odConfirm" title="状态" width="100" templet='#confirmTpl' />
+                <p field="odStm" title="时间" width="150" templet='#tmTpl'/>
+                <p field="odConfirm" title="状态" width="90" templet='#confirmTpl' />
                 <p field="odUnm" title="用户" width="100" />
-                <p field="odUphone" title="用户手机" width="100" />
-                <p field="pjNm" title="项目" width="100" />
-                <p field="odBarberUnm" title="理发师" width="100" />
+                <p field="odUphone" title="用户手机" width="150" />
+                <p field="pjNm" title="项目" width="150" />
+                <p field="odBarberUnm" title="理发师" width="150" />
                 <p field="odTotalPrice" title="总金额" width="100" />
-                <p field="odDiscount" title="会员折扣" width="80" />
-                <p field="odOfferPrice" title="优惠金额" width="80" />
-                <p field="odPayPrice" title="待支付金额" width="80" />
-                <p field="odPaied" title="是否支付" width="80" templet='#paiedTpl' />
-                <p field="odPaied" title="用户评价" width="80" />
+                <p field="odDiscount" title="会员折扣" width="100" />
+                <p field="odOfferPrice" title="优惠金额" width="100" />
+                <p field="odPayPrice" title="待支付金额" width="150" />
+                <p field="odPaied" title="是否支付" width="100" templet='#paiedTpl' />
+                <p field="odEva" title="用户评价" width="100" templet='#evalTpl' />
             </div>
             <script type="text/html" id="tmTpl">
                 <label>{{ layui.fsUtil.toDateString(parseInt(d.odStm), "yyyy-MM-dd HH:mm") }}</label>
@@ -132,6 +135,11 @@
                     <input type="checkbox" checked="" lay-skin="switch" disabled lay-text="yes">
                 {{#  }else{ }}
                     <input type="checkbox" lay-skin="switch" disabled  lay-text="no">
+                {{# } }}
+            </script>
+            <script type="text/html" id="evalTpl">
+                {{#  if(d.odEva != null){ }}
+                    <span class="eva">{{ d.odEva }} 星</span>
                 {{# } }}
             </script>
               

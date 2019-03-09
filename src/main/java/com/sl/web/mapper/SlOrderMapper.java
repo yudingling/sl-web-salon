@@ -7,6 +7,7 @@ import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 
 import com.sl.web.model.HistoryOrder;
+import com.sl.web.model.OrderInfo;
 import com.sl.web.model.db.SlOrder;
 import com.sl.web.mybatis.MyMapper;
 
@@ -30,10 +31,10 @@ public interface SlOrderMapper extends MyMapper<SlOrder> {
 			+ " and a.pj_id = #{projectId} "
 			+ "</when>"
 			+ "<when test='stm != null'> "
-			+ " and a.crt_ts >= #{stm} "
+			+ " <![CDATA[ and a.crt_ts >= #{stm} ]]>  "
 			+ "</when>"
 			+ "<when test='etm != null'> "
-			+ " and a.crt_ts <= #{etm} "
+			+ " <![CDATA[ and a.crt_ts <= #{etm} ]]> "
 			+ "</when>"
 			+ "order by a.crt_ts desc limit #{startIndex}, #{size} </script>")
 	List<HistoryOrder> getHistoryOrders(@Param("shopId") Long shopId, @Param("paied") Integer paied, @Param("confirmed") Integer confirmed, 
@@ -57,13 +58,27 @@ public interface SlOrderMapper extends MyMapper<SlOrder> {
 			+ " and a.pj_id = #{projectId} "
 			+ "</when>"
 			+ "<when test='stm != null'> "
-			+ " and a.crt_ts >= #{stm} "
+			+ " <![CDATA[ and a.crt_ts >= #{stm} ]]>  "
 			+ "</when>"
 			+ "<when test='etm != null'> "
-			+ " and a.crt_ts <= #{etm} "
+			+ "  <![CDATA[ and a.crt_ts <= #{etm} ]]>  "
 			+ "</when>"
 			+ "</script>")
 	@ResultType(Long.class)
 	Long getHistoryOrderCount(@Param("shopId") Long shopId, @Param("paied") Integer paied, @Param("confirmed") Integer confirmed, 
 			@Param("barberUid") Long barberUid, @Param("projectId") Long projectId, @Param("stm") Long stm, @Param("etm") Long etm);
+	
+	@Select("select a.*, u.u_nm as od_unm, u.u_phone as od_uphone, c.pj_nm "
+			+ " from sl_order a inner join sl_shop b on a.shop_id = b.shop_id inner join sl_project c on a.pj_id = c.pj_id "
+			+ " inner join sl_user u on a.od_uid = u.u_id "
+			+ " where b.shop_id = #{shopId} and a.od_confirm=0 "
+			+ " order by a.crt_ts desc")
+	List<OrderInfo> getWaitingConfirmOrders(@Param("shopId") Long shopId);
+	
+	@Select("select a.*, u.u_nm as od_unm, u.u_phone as od_uphone, c.pj_nm "
+			+ " from sl_order a inner join sl_shop b on a.shop_id = b.shop_id inner join sl_project c on a.pj_id = c.pj_id "
+			+ " inner join sl_user u on a.od_uid = u.u_id "
+			+ " where b.shop_id = #{shopId} and a.od_confirm=1 and a.od_paied = 0 "
+			+ " order by a.crt_ts desc")
+	List<OrderInfo> getRunningOrders(@Param("shopId") Long shopId);
 }

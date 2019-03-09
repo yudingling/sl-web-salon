@@ -4,12 +4,14 @@ import javax.servlet.http.HttpServletResponse;
 
 import org.apache.commons.lang3.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.Assert;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.sl.web.filter.FilterHttpServletRequest;
+import com.sl.web.model.result.ApiError;
 import com.sl.web.model.result.ApiResult;
 import com.sl.web.service.OrderService;
 import com.sl.web.util.DateUtil;
@@ -42,5 +44,42 @@ public class OrderController {
 		}
 		
 		return this.orderService.getList(pageNum, pageSize, request.getAuth(), paiedVal, confirmedVal, barberUidVal, projectIdVal, stmVal, etmVal);
+	}
+	
+	@RequestMapping(value = "/waitForConfirm", method = RequestMethod.POST)
+	public ApiResult waitForConfirm(FilterHttpServletRequest request, HttpServletResponse response){
+		return this.orderService.getWaitingConfirmOrders(request.getAuth());
+	}
+	
+	@RequestMapping(value = "/running", method = RequestMethod.POST)
+	public ApiResult running(FilterHttpServletRequest request, HttpServletResponse response){
+		return this.orderService.getRunningOrders(request.getAuth());
+	}
+	
+	@RequestMapping(value = "/confirm", method = RequestMethod.POST)
+	public ApiResult confirmOrder(@RequestParam Long odId, FilterHttpServletRequest request, HttpServletResponse response){
+		Assert.notNull(odId, "odId should not be null or empty");
+		
+		boolean ok = this.orderService.confirmOrder(request.getAuth(), odId);
+		
+		return ok ? ApiResult.success() : ApiResult.error(ApiError.ARGUMENT_ERROR);
+	}
+	
+	@RequestMapping(value = "/cancel", method = RequestMethod.POST)
+	public ApiResult cancelOrder(@RequestParam Long odId, FilterHttpServletRequest request, HttpServletResponse response){
+		Assert.notNull(odId, "odId should not be null or empty");
+		
+		boolean ok = this.orderService.cancelOrder(request.getAuth(), odId);
+		
+		return ok ? ApiResult.success() : ApiResult.error(ApiError.ARGUMENT_ERROR);
+	}
+	
+	@RequestMapping(value = "/pay", method = RequestMethod.POST)
+	public ApiResult payOrder(@RequestParam Long odId, FilterHttpServletRequest request, HttpServletResponse response){
+		Assert.notNull(odId, "odId should not be null or empty");
+		
+		boolean ok = this.orderService.payedOrderManually(request.getAuth(), odId);
+		
+		return ok ? ApiResult.success() : ApiResult.error(ApiError.ARGUMENT_ERROR);
 	}
 }

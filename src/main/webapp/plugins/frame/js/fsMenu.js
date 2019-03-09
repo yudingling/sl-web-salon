@@ -23,6 +23,7 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
         
     }else if(roleId == 'SHOP'){
         menuData = [
+            {"menuId":"36","menuName":"预览","menuIcon":"","menuHref":"../views/preview/index.html","parentMenuId":3},
             {"menuId":"32","menuName":"店家管理","menuIcon":"","menuHref":"","parentMenuId":3},
             {"menuId":"321","menuName":"基本信息","menuIcon":"fa-info-circle","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
             {"menuId":"322","menuName":"用户管理","menuIcon":"fa-user-o","menuHref":"../views/shopWorker/index.html","parentMenuId":"32"},
@@ -38,6 +39,7 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
         
     }else if(roleId == 'SHOP_WORKER'){
         menuData = [
+            {"menuId":"36","menuName":"预览","menuIcon":"","menuHref":"../views/preview/index.html","parentMenuId":3},
             {"menuId":"32","menuName":"店家管理","menuIcon":"","menuHref":"","parentMenuId":3},
             {"menuId":"321","menuName":"基本信息","menuIcon":"fa-info-circle","menuHref":"../views/shopDetail/index.html","parentMenuId":"32"},
             {"menuId":"324","menuName":"假期管理","menuIcon":"fa-paper-plane-o","menuHref":"../views/shopHoliday/index.html","parentMenuId":"32"},
