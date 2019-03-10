@@ -7,6 +7,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Service;
 
 import com.alibaba.fastjson.JSON;
+import com.sl.web.model.BarberWorkInfo;
 import com.sl.web.model.BrandInfo;
 import com.sl.web.model.EventInfo;
 import com.sl.web.model.OrderProductInfo;
@@ -65,6 +66,14 @@ public class CommonService {
 		products.forEach(pd -> {
 			if(pd.getPdIcon() != null){
 				pd.setPdIconUrl(String.format("%s/%s%s", this.fileUrl, pd.getFilePfx(), pd.getFileNm()));
+			}
+		});
+	}
+	
+	public void setWorkImageUrl(List<BarberWorkInfo> works){
+		works.forEach(pd -> {
+			if(pd.getBbwImg() != null){
+				pd.setBbwImgUrl(String.format("%s/%s%s", this.fileUrl, pd.getFilePfx(), pd.getFileNm()));
 			}
 		});
 	}
