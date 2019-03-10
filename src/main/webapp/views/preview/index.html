@@ -1,0 +1,441 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<meta charset="UTF-8">
+	<meta content="text/html;charset=UTF-8"/>
+	<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1"/>
+	<meta http-equiv ="Pragma" content = "no-cache"/>
+	<meta http-equiv="Cache-Control" content="no cache" />
+	<meta http-equiv="Expires" content="0" />
+	<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+	<meta name="apple-mobile-web-app-status-bar-style" content="black"/>
+	<meta name="apple-mobile-web-app-capable" content="yes"/>
+	<meta name="format-detection" content="telephone=no"/>
+	<script src="https://cdn.bootcss.com/pace/1.0.2/pace.min.js"></script>
+	<link href="https://cdn.bootcss.com/pace/1.0.2/themes/pink/pace-theme-flash.css" rel="stylesheet">
+	<link rel="stylesheet" type="text/css" href="../../plugins/layui/css/layui.css" media="all"/>
+    <link rel="stylesheet" type="text/css" href="../../plugins/notification/notification.css" />
+    <link rel="stylesheet" type="text/css" href="../../css/out/animate.css" />
+	<link rel="stylesheet" type="text/css" href="../../css/fs.css" media="all"/>
+	<script type="text/javascript" src="../../plugins/layui/layui.js"></script>
+	<script type="text/javascript" src="../../plugins/jquery/jquery.min.js"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/fsDict.js?v=1.7.0"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/fs.js?v=1.7.0"></script>
+	<script type="text/javascript" src="../../plugins/frame/js/frame.js?v=1.7.0"></script>
+    <script type="text/javascript" src="../../plugins/notification/notification.js"></script>
+    <script type="text/javascript" src="../../plugins/notification/Notice.js"></script>
+</head>
+    <style>
+        .layui-row>div{
+            padding: 10px;
+            background-color: #ccc;
+        }
+        .layui-row>div:last-child{
+            background-color: #a5a18c;
+        }
+        
+        span.nm{
+            font-weight: bold;
+            font-size: 16px;
+            color: #ff8300;
+        }
+        
+        span.pj{
+            font-size: 16px;
+            font-weight: bold;
+        }
+        
+        span.ts,
+        span.bb,
+        span.payPrice{
+            float: right;
+        }
+        
+        span.payPrice{
+            color: #FF5722;
+        }
+        
+        div.order{
+            border-bottom: 1px solid #ccc;
+            margin-bottom: 15px;
+        }
+        
+        div.order>div{
+            margin-bottom: 10px;
+        }
+        
+        div.pds>img{
+            width: 80px;
+            height: 80px;
+            margin-right: 10px;
+        }
+        
+    </style>
+<body>
+    <div class="llayui-container">
+        <div class="layui-row">
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">待确认订单</div>
+                    <div class="layui-card-body confirmList">
+                    </div>
+                </div>
+            </div>
+            <div class="lay ui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">执行中</div>
+                    <div class="layui-card-body runningList">
+                    </div>
+                </div>
+            </div>
+            <div class="layui-col-xs12 layui-col-sm6 layui-col-md4">
+                <div class="layui-card">
+                    <div class="layui-card-header">预约列表</div>
+                    <div class="layui-card-body">
+                        <div class="layui-collapse reservation" lay-accordion="">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        layui.use(['element'], function(){
+            let fsUtil = layui.fsUtil;
+            
+            let createRunningDiv = function(data){
+                let div = $('<div class="order confirm"><div><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pj"></span><span class="bb"></span></div><div class="pdsParent"><div>产品：</div><div class="pds"></div></div><div><span>订单金额：</span><span class="totalPrice"></span><span class="payPrice"></span></div><div style="text-align: right"><button class="layui-btn layui-btn-danger layui-btn-sm cancelOrder"><i class="layui-icon">取消订单</i></button><button class="layui-btn layui-btn-sm payOrder"><i class="layui-icon">支付完成</i></button></div></div>').addClass("cls_" + data.odId);
+                
+                div.find('span.nm').text(data.odUnm + ' （' + data.odUphone + '）');
+                div.find('span.ts').text(fsUtil.toDateString(parseInt(data.crtTs), 'yyyy-MM-dd HH:mm'));
+                div.find('span.pj').text(data.pjNm);
+                div.find('span.bb').text('理发师：' + data.odBarberUnm);
+                
+                div.find('span.totalPrice').text(data.odTotalPrice);
+                div.find('span.payPrice').text('待支付：' + data.odPayPrice);
+                
+                let pds = div.find('.pds');
+                if(data.products && data.products.length > 0){
+                    data.products.forEach(function(pd, index){
+                        let img = $("<img>").attr("src", pd.pdIconUrl).attr('title', pd.pdNm);
+                        
+                        pds.append(img);
+                    });
+                    
+                }else{
+                    div.find(".pdsParent").hide();
+                }
+                
+                div.find('button.cancelOrder').click(function(){
+                    layer.open({
+                        type: 1,
+                        offset: 'auto',
+                        id: 'layerDemoAuto',
+                        content: '<div style="padding: 20px 100px;">取消该订单?</div>',
+                        btn: ['确 定', '取 消'],
+                        btnAlign: 'c',
+                        shade: 0,
+                        btn2: function(){
+                          layer.closeAll();
+                        },
+                        yes: function(){
+                            $.ajax({
+                                method: 'POST',
+                                url: '../../api/authed/shopMgr/order/cancel',
+                                data: {
+                                    odId: data.odId
+                                }
+                            }).done(function(ret){
+                                ret = evalJson(ret);
+
+                                if(ret.errorCode == 0){
+                                    Notice.ok("成功", "取消订单成功");
+                                    div.remove();
+
+                                }else{
+                                    Notice.error("请求错误", ret.errorMsg);
+                                }
+
+                            }).fail(function(error){
+                                var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                                Notice.error("请求错误!", errMsg);
+                            });
+                            
+                            layer.closeAll();
+                        }
+                    });
+                });
+                
+                div.find('button.payOrder').click(function(){
+                    layer.open({
+                        type: 1,
+                        offset: 'auto',
+                        id: 'layerDemoAuto',
+                        content: '<div style="padding: 20px 100px;">订单已支付?</div>',
+                        btn: ['已支付', '取 消'],
+                        btnAlign: 'c',
+                        shade: 0,
+                        btn2: function(){
+                          layer.closeAll();
+                        },
+                        yes: function(){
+                            $.ajax({
+                                method: 'POST',
+                                url: '../../api/authed/shopMgr/order/pay',
+                                data: {
+                                    odId: data.odId
+                                }
+                            }).done(function(ret){
+                                ret = evalJson(ret);
+
+                                if(ret.errorCode == 0){
+                                    Notice.ok("成功", "订单支付完成");
+                                    div.remove();
+
+                                }else{
+                                    Notice.error("请求错误", ret.errorMsg);
+                                }
+
+                            }).fail(function(error){
+                                var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                                Notice.error("请求错误!", errMsg);
+                            });
+                            
+                            layer.closeAll();
+                        }
+                    });
+                });
+                
+                return div;
+            };
+            
+            let createConfirmDiv = function(data){
+                let div = $('<div class="order confirm"><div><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pj"></span><span class="bb"></span></div><div class="pdsParent"><div>产品：</div><div class="pds"></div></div><div style="text-align: right"><button class="layui-btn layui-btn-normal layui-btn-sm layui-btn-radius">确 认</button></div></div>').addClass("cls_" + data.odId);
+                
+                div.find('span.nm').text(data.odUnm + ' （' + data.odUphone + '）');
+                div.find('span.ts').text(fsUtil.toDateString(parseInt(data.crtTs), 'yyyy-MM-dd HH:mm'));
+                div.find('span.pj').text(data.pjNm);
+                div.find('span.bb').text('理发师：' + data.odBarberUnm);
+                
+                let pds = div.find('.pds');
+                if(data.products && data.products.length > 0){
+                    data.products.forEach(function(pd, index){
+                        let img = $("<img>").attr("src", pd.pdIconUrl).attr('title', pd.pdNm);
+                        
+                        pds.append(img);
+                    });
+                    
+                }else{
+                    div.find(".pdsParent").hide();
+                }
+                
+                div.find('button').click(function(){
+                    $.ajax({
+                        method: 'POST',
+                        url: '../../api/authed/shopMgr/order/confirm',
+                        data: {
+                            odId: data.odId
+                        }
+                    }).done(function(ret){
+                        ret = evalJson(ret);
+
+                        if(ret.errorCode == 0){
+                            Notice.ok("成功", "订单确认成功");
+                            div.remove();
+                            
+                            refreshRunningList();
+                            
+                        }else{
+                            Notice.error("请求错误", ret.errorMsg);
+                        }
+
+                    }).fail(function(error){
+                        var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                        Notice.error("请求错误!", errMsg);
+                    });
+                });
+                
+                return div;
+            };
+            
+            let createReservationDiv = function(data){
+                let div = $('<div class="layui-colla-item"><h2 class="layui-colla-title">13520954743【染发, 明日下午3点】</h2><div class="layui-colla-content"><div style="margin-bottom: 10px"><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pjX"></span><span class="bb"></span></div></div></div>').addClass("cls_" + data.rvId);
+                
+                let tm = fsUtil.toDateString(parseInt(data.crtTs), 'MM/dd HH:mm');
+                
+                div.find('span.nm').text(data.rvUnm + ' （' + data.rvUphone + '）');
+                div.find('span.ts').text(tm);
+                div.find('span.pjX').text(data.pjNm);
+                div.find('span.bb').text('理发师：' + data.rvBarberUnm);
+                
+                div.find('.layui-colla-title').text(data.rvUnm + ' ' + data.rvUphone + '【'+ data.pjNm +', ' + tm +'】');
+                
+                return div;
+            };
+            
+            let resetDatas = function(div, datas, isConfirm){
+                let oldDatas = div.data("data");
+                
+                let odIds = [];
+                for(let i=0; i<datas.length; i++){
+                    odIds.push(datas[i].odId);
+                }
+                
+                if(!oldDatas || oldDatas.length == 0){
+                    datas.forEach(function(order, index){
+                        div.append(isConfirm ? createConfirmDiv(order) : createRunningDiv(order));
+                    });
+                    
+                }else{
+                    
+                    for(let i=0; i<oldDatas.length; i++){
+                        if(odIds.indexOf(oldDatas[i]) < 0){
+                            //remove
+                            div.find("div.cls_" + oldDatas[i]).remove();
+                        }
+                    }
+                    
+                    let oldLast = div.children("div:first-child");
+                    if(oldLast.length == 0){
+                        oldLast = null;
+                    }
+                    
+                    for(let i=0; i<datas.length; i++){
+                        if(div.find("div.cls_" + datas[i].odId).length == 0){
+                            let newNode = isConfirm ? createConfirmDiv(datas[i]) : createRunningDiv(datas[i]);
+                            
+                            if(oldLast){
+                                newNode.insertBefore(oldLast);
+                            }else{
+                                div.append(newNode);
+                            }
+                        }
+                    }
+                }
+                
+                div.data("data", odIds);
+            };
+            
+            let resetReservations = function(div, datas){
+                let oldDatas = div.data("data");
+                
+                let odIds = [];
+                for(let i=0; i<datas.length; i++){
+                    odIds.push(datas[i].rvId);
+                }
+                
+                if(!oldDatas || oldDatas.length == 0){
+                    datas.forEach(function(rv, index){
+                        div.append(createReservationDiv(rv));
+                    });
+                    
+                }else{
+                    
+                    for(let i=0; i<oldDatas.length; i++){
+                        if(odIds.indexOf(oldDatas[i]) < 0){
+                            //remove
+                            div.find("div.cls_" + oldDatas[i]).remove();
+                        }
+                    }
+                    
+                    let oldLast = div.children("div:first-child");
+                    if(oldLast.length == 0){
+                        oldLast = null;
+                    }
+                    
+                    for(let i=0; i<datas.length; i++){
+                        if(div.find("div.cls_" + datas[i].rvId).length == 0){
+                            let newNode = createReservationDiv(datas[i]);
+                            
+                            if(oldLast){
+                                newNode.insertBefore(oldLast);
+                            }else{
+                                div.append(newNode);
+                            }
+                        }
+                    }
+                }
+                
+                div.find(".layui-colla-content").removeClass("layui-show");
+                div.find(".layui-colla-item:first-child .layui-colla-content").addClass("layui-show");
+                
+                div.data("data", odIds);
+                
+                layui.element.render('collapse');
+            };
+            
+            let refreshConfirmList = function(){
+                $.ajax({
+                    method: 'POST',
+                    url: '../../api/authed/shopMgr/order/waitForConfirm'
+                }).done(function(ret){
+                    ret = evalJson(ret);
+                    
+                    if(ret.errorCode == 0){
+                        resetDatas($('div.confirmList'), ret.data, true);
+
+                    }else{
+                        Notice.error("请求错误", ret.errorMsg);
+                    }
+
+                }).fail(function(error){
+                    var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                    Notice.error("请求错误!", errMsg);
+                });
+            };
+            
+            
+            refreshConfirmList();
+            setInterval(refreshConfirmList, 3000);
+            
+            
+            let refreshRunningList = function(){
+                $.ajax({
+                    method: 'POST',
+                    url: '../../api/authed/shopMgr/order/running'
+                }).done(function(ret){
+                    ret = evalJson(ret);
+                    
+                    if(ret.errorCode == 0){
+                        resetDatas($('div.runningList'), ret.data, false);
+
+                    }else{
+                        Notice.error("请求错误", ret.errorMsg);
+                    }
+
+                }).fail(function(error){
+                    var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                    Notice.error("请求错误!", errMsg);
+                });
+            };
+            
+            refreshRunningList();
+            setInterval(refreshRunningList, 5000);
+            
+            
+            let refreshReservationList = function(){
+                $.ajax({
+                    method: 'POST',
+                    url: '../../api/authed/shopMgr/reservation'
+                }).done(function(ret){
+                    ret = evalJson(ret);
+                    
+                    if(ret.errorCode == 0){
+                        resetReservations($('div.reservation'), ret.data);
+
+                    }else{
+                        Notice.error("请求错误", ret.errorMsg);
+                    }
+
+                }).fail(function(error){
+                    var errMsg = "Status: " + error.status + "<br/>StatusText: " + error.statusText + "<br/>ResponseText: " + error.responseText;
+                    Notice.error("请求错误!", errMsg);
+                });
+            };
+            
+            refreshReservationList();
+            setInterval(refreshReservationList, 10000);
+        });
+    </script>
+</body>
+</html>

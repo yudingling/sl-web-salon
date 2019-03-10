@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import com.alibaba.fastjson.JSON;
 import com.sl.web.model.BrandInfo;
 import com.sl.web.model.EventInfo;
+import com.sl.web.model.OrderProductInfo;
 import com.sl.web.model.ProductInfo;
 import com.sl.web.model.ProjectProductInfo;
 import com.sl.web.model.UserInfo;
@@ -53,6 +54,14 @@ public class CommonService {
 	}
 	
 	public void setProjectProductImageUrl(List<ProjectProductInfo> products){
+		products.forEach(pd -> {
+			if(pd.getPdIcon() != null){
+				pd.setPdIconUrl(String.format("%s/%s%s", this.fileUrl, pd.getFilePfx(), pd.getFileNm()));
+			}
+		});
+	}
+	
+	public void setOrderProductImageUrl(List<OrderProductInfo> products){
 		products.forEach(pd -> {
 			if(pd.getPdIcon() != null){
 				pd.setPdIconUrl(String.format("%s/%s%s", this.fileUrl, pd.getFilePfx(), pd.getFileNm()));

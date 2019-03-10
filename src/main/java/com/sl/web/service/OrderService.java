@@ -212,6 +212,7 @@ public class OrderService {
 		Set<Long> odIds = orders.stream().map(OrderInfo::getOdId).collect(Collectors.toSet());
 		
 		List<OrderProductInfo> products = this.orderProductMapper.getOrderProducts(odIds);
+		this.commonService.setOrderProductImageUrl(products);
 		
 		if(CollectionUtils.isNotEmpty(products)){
 			Map<Long, List<OrderProductInfo>> pdMap = new HashMap<>();
