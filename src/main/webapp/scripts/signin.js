@@ -1,4 +1,4 @@
-layui.use(['layer'],function(){
+﻿layui.use(['layer'],function(){
     let layer = layui.layer;
     
     let evalJson = function(value) {
