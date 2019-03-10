@@ -69,16 +69,16 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 			method : "post",//请求类型，默认post
 			rootMenuId : "0", //根目录菜单id
 			defaultSelectTopMenuId : "3", //默认选中头部菜单id
-			defaultSelectLeftMenuId : "321", //默认选中左边菜单id
+			defaultSelectLeftMenuId : "36", //默认选中左边菜单id
 			menuIdField : "menuId", //菜单id
 			menuNameField : "menuName", //菜单名称
 			menuIconField : "menuIcon" , //菜单图标，图标必须用css
 			menuHrefField : "menuHref" , //菜单链接
 			parentMenuIdField : "parentMenuId" ,//父菜单id
 			data : [
-				{"menuId":"1","menuName":"控制台","menuIcon":"fa-cog","menuHref":"","parentMenuId":0},
-				{"menuId":"2","menuName":"测试","menuIcon":"","menuHref":"","parentMenuId":0},
                 {"menuId":"3","menuName":"我的控制台","menuIcon":"","menuHref":"","parentMenuId":0},
+				/*{"menuId":"1","menuName":"控制台","menuIcon":"fa-cog","menuHref":"","parentMenuId":0},
+				{"menuId":"2","menuName":"测试","menuIcon":"","menuHref":"","parentMenuId":0},*/
 				{"menuId":"11","menuName":"案例","menuIcon":"fa-table","menuHref":"","parentMenuId":1},
 				{"menuId":"12","menuName":"其他页面","menuIcon":"","menuHref":"","parentMenuId":"1"},
                 
