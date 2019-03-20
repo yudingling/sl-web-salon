@@ -26,7 +26,7 @@ layui.define([], function (exports) {
 	fsConfig["global"] = {
 		"servletUrl":"", //异步请求地址,本地工程可以不填
 		"loginUrl" : "/signin.html", //登录url
-		"uploadUrl" : "http://cloud.telasee.com:61002/out/icon", //上传附件url
+		"uploadUrl" : "https://api.salon.hfsys.cn/slfile/out/icon", //上传附件url
 		"uploadHtmlUrl" : "../plugins/frame/views/upload.html", //上传附件html地址，默认/plugins/frame/views/upload.html
 		"loadDataType":"1",//加载数据类型，1：使用缓存数据，0：实时查询，默认0  （编辑或查看是否取缓存数据）
 		"datagridSubmitType":"1",//数据表格提交类型，1：原数据提交，2：增删改标签提交（fsType）， 默认1
