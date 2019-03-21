@@ -76,7 +76,7 @@
 		<!-- 内容 -->
 		<div class="layui-tab-content">
 			<div class="layui-tab-item layui-show" lay-id="1">
-				<iframe src="../views/preview/index.html"></iframe>
+				<iframe class="defaultFrame"></iframe>
 			</div>
 		</div>
 	</div>
@@ -96,6 +96,16 @@
     <script>
         layui.use(['fsCommon'], function(){
             let fsCommon = layui.fsCommon;
+            
+            let getCookie = function getCookie(name) {
+              var v = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
+              return v ? v[2] : null;
+            };
+
+            let roleId = getCookie('r');
+            if(roleId == 'SHOP' || roleId == 'SHOP_WORKER'){
+                $('.defaultFrame').attr('src', '../views/preview/index.html');
+            }
             
             $('a.signout').click(function(){
                 $.ajax({

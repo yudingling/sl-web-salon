@@ -13,6 +13,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
     
     let roleId = getCookie('r');
     
+    let defaultSelectLeftMenuId = "";
+    
     let menuData = [];
     if(roleId == 'ADMIN'){
         menuData = [
@@ -20,6 +22,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"311","menuName":"品牌列表","menuIcon":"&#xe68e;","menuHref":"../views/brandMgr/index.html","parentMenuId":"31"},
             {"menuId":"312","menuName":"分店列表","menuIcon":"&#xe68e;","menuHref":"../views/shopMgr/index.html","parentMenuId":"31"}
         ];
+        
+        defaultSelectLeftMenuId = '';
         
     }else if(roleId == 'SHOP'){
         menuData = [
@@ -38,6 +42,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"351","menuName":"历史订单","menuIcon":"fa-list-ul","menuHref":"../views/order/index.html","parentMenuId":"35"}
         ];
         
+        defaultSelectLeftMenuId = '36';
+        
     }else if(roleId == 'SHOP_WORKER'){
         menuData = [
             {"menuId":"36","menuName":"预览","menuIcon":"","menuHref":"../views/preview/index.html","parentMenuId":3},
@@ -54,6 +60,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"351","menuName":"历史订单","menuIcon":"fa-list-ul","menuHref":"../views/order/index.html","parentMenuId":"35"}
         ];
         
+        defaultSelectLeftMenuId = '36';
+        
     }else if(roleId == 'BRAND' || roleId == 'BRAND_WORKER'){
         menuData = [
             {"menuId":"33","menuName":"产品/项目管理","menuIcon":"","menuHref":"","parentMenuId":3},
@@ -61,6 +69,8 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
             {"menuId":"332","menuName":"产品列表","menuIcon":"fa-list-ul","menuHref":"../views/product/index.html","parentMenuId":"33"},
             {"menuId":"333","menuName":"项目管理","menuIcon":"fa-list-ul","menuHref":"../views/project/index.html","parentMenuId":"33"}
         ];
+        
+        defaultSelectLeftMenuId = '';
     }
     
 	var menuConfig = {
@@ -69,7 +79,7 @@ layui.define(['element',"fsConfig","fsCommon"], function(exports){
 			method : "post",//请求类型，默认post
 			rootMenuId : "0", //根目录菜单id
 			defaultSelectTopMenuId : "3", //默认选中头部菜单id
-			defaultSelectLeftMenuId : "36", //默认选中左边菜单id
+			defaultSelectLeftMenuId : defaultSelectLeftMenuId, //默认选中左边菜单id
 			menuIdField : "menuId", //菜单id
 			menuNameField : "menuName", //菜单名称
 			menuIconField : "menuIcon" , //菜单图标，图标必须用css
