@@ -266,9 +266,9 @@
             };
             
             let createReservationDiv = function(data){
-                let div = $('<div class="layui-colla-item"><h2 class="layui-colla-title">13520954743【染发, 明日下午3点】</h2><div class="layui-colla-content"><div style="margin-bottom: 10px"><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pjX"></span><span class="bb"></span></div></div></div>').addClass("cls_" + data.rvId);
+                let div = $('<div class="layui-colla-item"><h2 class="layui-colla-title"></h2><div class="layui-colla-content"><div style="margin-bottom: 10px"><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pjX"></span><span class="bb"></span></div></div></div>').addClass("cls_" + data.rvId);
                 
-                let tm = fsUtil.toDateString(parseInt(data.crtTs), 'MM/dd HH:mm');
+                let tm = fsUtil.toDateString(parseInt(data.rvStm), 'MM/dd HH:mm');
                 
                 div.find('span.nm').text(data.rvUnm + ' （' + data.rvUphone + '）');
                 div.find('span.ts').text(tm);
