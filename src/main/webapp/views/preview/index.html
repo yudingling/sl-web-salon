@@ -103,6 +103,13 @@
         layui.use(['element'], function(){
             let fsUtil = layui.fsUtil;
             
+            let say = function(text){
+                var speechSU = new window.SpeechSynthesisUtterance();
+                speechSU.rate = 0.75;
+                speechSU.text = text;
+                window.speechSynthesis.speak(speechSU);
+            };
+            
             let createRunningDiv = function(data){
                 let div = $('<div class="order confirm"><div><span class="nm"></span><span class="ts"></span></div><div><span>项目：</span><span class="pj"></span><span class="bb"></span></div><div class="pdsParent"><div>产品：</div><div class="pds"></div></div><div><span>订单金额：</span><span class="totalPrice"></span><span class="payPrice"></span></div><div style="text-align: right"><button class="layui-btn layui-btn-danger layui-btn-sm cancelOrder"><i class="layui-icon">取消订单</i></button><button class="layui-btn layui-btn-sm payOrder"><i class="layui-icon">支付完成</i></button></div></div>').addClass("cls_" + data.odId);
                 
@@ -282,6 +289,10 @@
                 }
                 
                 if(!oldDatas || oldDatas.length == 0){
+                    if(isConfirm && datas.length > 0){
+                        say('来新的订单啦');
+                    }
+                    
                     datas.forEach(function(order, index){
                         div.append(isConfirm ? createConfirmDiv(order) : createRunningDiv(order));
                     });
@@ -300,8 +311,15 @@
                         oldLast = null;
                     }
                     
+                    let sayed = false;
+                    
                     for(let i=0; i<datas.length; i++){
                         if(div.find("div.cls_" + datas[i].odId).length == 0){
+                            if(isConfirm && !sayed){
+                                say('来新的订单啦');
+                                sayed = true;
+                            }
+                            
                             let newNode = isConfirm ? createConfirmDiv(datas[i]) : createRunningDiv(datas[i]);
                             
                             if(oldLast){
@@ -325,6 +343,10 @@
                 }
                 
                 if(!oldDatas || oldDatas.length == 0){
+                    if(datas.length > 0){
+                        say('您有新的预约');
+                    }
+                    
                     datas.forEach(function(rv, index){
                         div.append(createReservationDiv(rv));
                     });
@@ -343,8 +365,15 @@
                         oldLast = null;
                     }
                     
+                    let sayed = false;
+                    
                     for(let i=0; i<datas.length; i++){
                         if(div.find("div.cls_" + datas[i].rvId).length == 0){
+                            if(!sayed){
+                                say('您有新的预约');
+                                sayed = true;
+                            }
+                            
                             let newNode = createReservationDiv(datas[i]);
                             
                             if(oldLast){

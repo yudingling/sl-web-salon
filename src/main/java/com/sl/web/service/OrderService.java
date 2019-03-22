@@ -9,11 +9,13 @@ import java.util.stream.Collectors;
 
 import org.apache.commons.collections4.CollectionUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import tk.mybatis.mapper.entity.Example;
 
+import com.alibaba.fastjson.JSON;
 import com.sl.web.mapper.SlOrderEvaluationMapper;
 import com.sl.web.mapper.SlOrderMapper;
 import com.sl.web.mapper.SlOrderProductMapper;
@@ -30,6 +32,8 @@ import com.sl.web.model.db.SlUser;
 import com.sl.web.model.db.SlUserShop;
 import com.sl.web.model.result.ApiArrayResult;
 import com.sl.web.model.result.ApiPageResult;
+import com.sl.web.model.result.ApiResult;
+import com.sl.web.util.HttpClientUtil;
 
 @Service
 public class OrderService {
@@ -47,6 +51,9 @@ public class OrderService {
 	private SlUserMapper userMapper;
 	@Autowired
 	private CommonService commonService;
+	
+	@Value("${order.confirm.url}")
+	private String confirmOrderUrl;
 	
 	private int getStartIndex(int pageNum, int pageSize){
 		int startIndex = (pageNum - 1) * pageSize;
@@ -140,11 +147,24 @@ public class OrderService {
 			Example example = new Example(SlOrder.class);
 		    example.createCriteria().andEqualTo("odId", odId).andEqualTo("odConfirm", 0);
 			
-			return this.orderMapper.updateByExampleSelective(upt, example) == 1;
+			if(this.orderMapper.updateByExampleSelective(upt, example) == 1){
+				try {
+					String value = HttpClientUtil.httpGet(String.format("%s?odId=%d", this.confirmOrderUrl, odId));
+					ApiResult result = JSON.parseObject(value, ApiResult.class);
+					if(result != null && result.getErrorCode() == 0){
+						return true;
+						
+					}else{
+						throw new RuntimeException("internal server error.");
+					}
 					
-		}else{
-			return false;
+				} catch (Exception e) {
+					throw new RuntimeException(e.getMessage());
+				}
+			}		
 		}
+		
+		return false;
 	}
 	
 	@Transactional(rollbackFor = Exception.class)
